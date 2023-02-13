@@ -1,0 +1,142 @@
+<script lang="ts">
+	import Button from '../Button.svelte';
+
+	let toggleButton = 'Start';
+	let stopButton = 'Pause';
+	let time = '00:00:00';
+	let currentTime: string;
+	let timerInterval: any = false;
+	let hours = 0;
+	let minutes = 0;
+	let seconds = 0;
+
+	function toggleTimer() {
+		if (time != '00:00:00') {
+			hours = parseInt(time.substring(0, 2));
+			minutes = parseInt(time.substring(3, 5));
+			seconds = parseInt(time.substring(6));
+			if (timerInterval) {
+				toggleButton = 'Start';
+				clearInterval(timerInterval);
+				timerInterval = false;
+				if (currentTime != '00:00:00') {
+					hours = 0;
+					minutes = 0;
+					seconds = 0;
+				}
+			} else {
+				if (stopButton == 'Continue' && toggleButton == 'Stop') {
+					toggleButton = 'Start';
+					clearInterval(timerInterval);
+					timerInterval = false;
+					hours = 0;
+					minutes = 0;
+					seconds = 0;
+				} else {
+					console.log('Locura');
+					toggleButton = 'Stop';
+					stopButton = 'Pause';
+					timerInterval = setInterval(timer, 1000);
+				}
+			}
+		}
+	}
+
+	function pauseTimer() {
+		if (timerInterval) {
+			stopButton = 'Continue';
+			clearInterval(timerInterval);
+			timerInterval = false;
+		} else {
+			toggleButton = 'Stop';
+			stopButton = 'Pause';
+			timerInterval = setInterval(timer, 1000);
+		}
+	}
+
+	function timer() {
+		seconds--;
+		if (seconds <= -1) {
+			seconds = 0;
+			minutes--;
+			if (minutes <= -1) {
+				minutes = 0;
+				hours--;
+			}
+			if (hours <= 0) {
+				hours = 0;
+				if (currentTime != '00:00:00') {
+					minutes = 0;
+					seconds = 0;
+				}
+				clearInterval(timerInterval);
+				timerInterval = false;
+			}
+		}
+	}
+
+	$: {
+		currentTime =
+			hours.toLocaleString('es-ES', {
+				minimumIntegerDigits: 2,
+				useGrouping: false
+			}) +
+			':' +
+			minutes.toLocaleString('es-ES', {
+				minimumIntegerDigits: 2,
+				useGrouping: false
+			}) +
+			':' +
+			seconds.toLocaleString('es-ES', {
+				minimumIntegerDigits: 2,
+				useGrouping: false
+			});
+
+		if (currentTime == '00:00:00') {
+			toggleButton = 'Start';
+		}
+	}
+</script>
+
+<svelte:head>
+	<title>Timer</title>
+</svelte:head>
+
+{#if currentTime != '00:00:00'}
+	<h1>{currentTime}</h1>
+	<div>
+		<Button func={pauseTimer} content={stopButton} />
+		<Button func={toggleTimer} content={toggleButton} />
+	</div>
+{:else}
+	<input type="time" step="2" bind:value={time} />
+	{#if time != '00:00:00'}
+		<Button func={toggleTimer} content={toggleButton} />
+	{/if}
+{/if}
+
+<style lang="postcss">
+	div {
+		display: flex;
+		align-items: flex-start;
+		gap: 2rem;
+	}
+	input[type='time'] {
+		font-family: 'Inter';
+		font-size: 2em;
+		font-weight: 600;
+		border: none;
+		height: 144px;
+		border-bottom: 2px solid #ffffff43;
+		margin-bottom: 2rem;
+		background-color: transparent;
+		transition: border-bottom 250ms;
+		&:focus {
+			outline: transparent;
+			border-bottom: 2px solid #ffffff60;
+		}
+	}
+	input[type='time']::-webkit-calendar-picker-indicator {
+		display: none;
+	}
+</style>
