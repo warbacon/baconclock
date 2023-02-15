@@ -5,6 +5,7 @@
 	let minutes: number;
 	let seconds: number;
 	let time: any;
+	let title:string;
 
 	let chronoInterval: any = false;
 	let chronoButton = 'Start';
@@ -29,6 +30,12 @@
 			seconds = parseInt(time.substring(6));
 		}
 	});
+
+	$: if (!chronoInterval) {
+		title = 'Chronometer';
+	} else {
+		title = time;
+	}
 
 	function resetChronometer() {
 		if (chronoInterval) {
@@ -92,7 +99,7 @@
 </script>
 
 <svelte:head>
-	<title>Chronometer</title>
+	<title>{title}</title>
 </svelte:head>
 
 {#if time != undefined}
