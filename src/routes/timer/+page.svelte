@@ -126,7 +126,6 @@
 		font-size: 2em;
 		font-weight: 600;
 		border: none;
-		height: 116px;
 		border-bottom: 2px solid #ffffff43;
 		margin-bottom: 2rem;
 		background-color: transparent;

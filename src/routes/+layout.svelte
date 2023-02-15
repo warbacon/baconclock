@@ -34,6 +34,7 @@
 		flex-direction: column;
 		font-size: 3rem;
 		font-weight: 500;
+		height: 80vh;
 	}
 	div {
 		height: 20vh;
