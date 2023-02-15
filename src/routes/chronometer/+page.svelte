@@ -1,10 +1,11 @@
 <script lang="ts">
 	import Button from '../Button.svelte';
 	import { onMount } from 'svelte';
-	let hours = 0;
-	let minutes = 0;
-	let seconds = 0;
-	let time = '00:00:00';
+	let hours: number;
+	let minutes: number;
+	let seconds: number;
+	let time: any;
+
 	let chronoInterval: any = false;
 	let chronoButton = 'Start';
 
@@ -16,7 +17,28 @@
 				toggleChronometer();
 			}
 		};
+		if (sessionStorage.getItem('time') != null && sessionStorage != undefined) {
+			time = sessionStorage.getItem('time');
+			hours = parseInt(time.substring(0, 2));
+			minutes = parseInt(time.substring(3, 5));
+			seconds = parseInt(time.substring(6));
+		} else {
+			time = '00:00:00';
+			hours = parseInt(time.substring(0, 2));
+			minutes = parseInt(time.substring(3, 5));
+			seconds = parseInt(time.substring(6));
+		}
 	});
+
+	function resetChronometer() {
+		if (chronoInterval) {
+			toggleChronometer();
+		}
+		time = '00:00:00';
+		hours = parseInt(time.substring(0, 2));
+		minutes = parseInt(time.substring(3, 5));
+		seconds = parseInt(time.substring(6));
+	}
 
 	function toggleChronometer() {
 		chrono = !chrono;
@@ -29,23 +51,14 @@
 
 	function chronometer() {
 		seconds++;
-		if (seconds == 60) {
+		if (seconds >= 60) {
 			seconds = 0;
 			minutes++;
-			if (minutes == 60) hours++;
-		}
-	}
-
-	$: {
-		if (chrono) {
-			if (!chronoInterval) {
-				chronoInterval = setInterval(chronometer, 1000);
+			if (minutes >= 60) {
+				minutes = 0;
+				hours++;
 			}
-		} else {
-			clearInterval(chronoInterval);
-			chronoInterval = false;
 		}
-
 		time =
 			hours.toLocaleString('es-ES', {
 				minimumIntegerDigits: 2,
@@ -61,6 +74,19 @@
 				minimumIntegerDigits: 2,
 				useGrouping: false
 			});
+
+		sessionStorage.setItem('time', time);
+	}
+
+	$: {
+		if (chrono) {
+			if (!chronoInterval) {
+				chronoInterval = setInterval(chronometer, 1000);
+			}
+		} else {
+			clearInterval(chronoInterval);
+			chronoInterval = false;
+		}
 	}
 </script>
 
@@ -68,5 +94,22 @@
 	<title>Chronometer</title>
 </svelte:head>
 
-<h1>{time}</h1>
-<Button func={toggleChronometer} content={chronoButton} />
+{#if time != undefined}
+	<h1>{time}</h1>
+	{#if time == '00:00:00' && !chronoInterval}
+		<Button func={toggleChronometer} content={chronoButton} />
+	{:else}
+		<div>
+			<Button func={resetChronometer} content={'Reset'} />
+			<Button func={toggleChronometer} content={chronoButton} />
+		</div>
+	{/if}
+{/if}
+
+<style>
+	div {
+		display: flex;
+		align-items: flex-start;
+		gap: 2rem;
+	}
+</style>

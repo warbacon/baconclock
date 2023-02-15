@@ -1,5 +1,4 @@
 <script lang="ts">
-	import 'sanitize.css';
 	import { page } from '$app/stores';
 	let current: string;
 	$: switch ($page.url.pathname) {
@@ -35,7 +34,6 @@
 		flex-direction: column;
 		font-size: 3rem;
 		font-weight: 500;
-		height: 80vh;
 	}
 	div {
 		height: 20vh;

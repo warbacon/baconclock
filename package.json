@@ -32,7 +32,6 @@
 	"dependencies": {
 		"autoprefixer": "^10.4.13",
 		"postcss": "^8.4.21",
-		"postcss-nesting": "^11.1.0",
-		"sanitize.css": "^13.0.0"
+		"postcss-nesting": "^11.1.0"
 	}
 }
