@@ -100,8 +100,8 @@
 		<Button func={toggleChronometer} content={chronoButton} />
 	{:else}
 		<div>
-			<Button func={resetChronometer} content={'Reset'} />
 			<Button func={toggleChronometer} content={chronoButton} />
+			<Button func={resetChronometer} content={'Reset'} />
 		</div>
 	{/if}
 {/if}
