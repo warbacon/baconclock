@@ -38,7 +38,7 @@
 		hours = parseInt(time.substring(0, 2));
 		minutes = parseInt(time.substring(3, 5));
 		seconds = parseInt(time.substring(6));
-		sessionStorage.setItem('time', time);
+		sessionStorage.removeItem('time');
 	}
 
 	function toggleChronometer() {
