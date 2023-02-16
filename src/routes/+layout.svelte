@@ -32,7 +32,7 @@
 	div.container {
 		padding-top: 20vh;
 		flex-direction: column;
-		font-size: clamp(2rem, 4vw, 5rem);
+		font-size: clamp(1.75rem, 4vw, 4rem);
 		font-weight: 500;
 		height: 80vh;
 		@media (max-width: 512px) {
