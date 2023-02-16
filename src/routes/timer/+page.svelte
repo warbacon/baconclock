@@ -126,13 +126,13 @@
 		font-size: 2em;
 		font-weight: 600;
 		border: none;
-		border-bottom: 2px solid #ffffff43;
+		border-bottom: 2px solid var(--rp-main-highlight-med);
 		margin-bottom: 2rem;
 		background-color: transparent;
 		transition: border-bottom 250ms;
 		&:focus {
 			outline: transparent;
-			border-bottom: 2px solid #ffffff60;
+			border-bottom: 2px solid var(--rp-main-highlight-high);
 		}
 	}
 	input[type='time']::-webkit-calendar-picker-indicator {
