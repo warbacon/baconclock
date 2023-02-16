@@ -1,13 +1,16 @@
 <script lang="ts">
 	let time: string;
 	let date = new Date();
-	let timeInterval: boolean | NodeJS.Timer = false;
+	let timeInterval: NodeJS.Timer;
+	import { onDestroy, onMount } from 'svelte';
 
-	if (!timeInterval) {
+	onMount(() => {
 		timeInterval = setInterval(() => {
 			date = new Date();
+			console.log('uwu');
 		}, 250);
-	}
+	});
+	onDestroy(() => clearInterval(timeInterval));
 
 	$: time =
 		date.getHours().toLocaleString('es-ES', {

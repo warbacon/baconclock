@@ -1,21 +1,22 @@
 <script lang="ts">
 	import Button from '../Button.svelte';
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	let hours: number;
 	let minutes: number;
 	let seconds: number;
 	let time: any;
-	let title:string;
+	let title: string;
 
 	let chronoInterval: any = false;
 	let chronoButton = 'Start';
 
-	let chrono = false;
-
 	onMount(() => {
 		document.onkeyup = function (e) {
-			if (e.key == ' ') {
-				toggleChronometer();
+			if (e.key == ' ' || e.key == 'p') {
+				startStop();
+			}
+			if (e.key == 'r') {
+				resetChronometer();
 			}
 		};
 		if (sessionStorage.getItem('time') != null && sessionStorage != undefined) {
@@ -23,6 +24,7 @@
 			hours = parseInt(time.substring(0, 2));
 			minutes = parseInt(time.substring(3, 5));
 			seconds = parseInt(time.substring(6));
+			chronoButton = 'Continue';
 		} else {
 			time = '00:00:00';
 			hours = parseInt(time.substring(0, 2));
@@ -31,30 +33,39 @@
 		}
 	});
 
-	$: if (!chronoInterval) {
-		title = 'Chronometer';
-	} else {
-		title = time;
+	onDestroy(() => {
+		stopChronometer();
+	});
+
+	function startStop() {
+		if (chronoInterval) {
+			stopChronometer();
+			chronoButton = 'Resume';
+		} else {
+			startChronometer();
+			chronoButton = 'Pause';
+		}
+	}
+
+	function startChronometer() {
+		chronoInterval = setInterval(chronometer, 1000);
+	}
+
+	function stopChronometer() {
+		clearInterval(chronoInterval);
+		chronoInterval = false;
 	}
 
 	function resetChronometer() {
 		if (chronoInterval) {
-			toggleChronometer();
+			stopChronometer();
 		}
+		chronoButton = 'Start';
 		time = '00:00:00';
 		hours = parseInt(time.substring(0, 2));
 		minutes = parseInt(time.substring(3, 5));
 		seconds = parseInt(time.substring(6));
 		sessionStorage.removeItem('time');
-	}
-
-	function toggleChronometer() {
-		chrono = !chrono;
-		if (chronoButton == 'Start') {
-			chronoButton = 'Stop';
-		} else {
-			chronoButton = 'Start';
-		}
 	}
 
 	function chronometer() {
@@ -82,19 +93,13 @@
 				minimumIntegerDigits: 2,
 				useGrouping: false
 			});
-
 		sessionStorage.setItem('time', time);
 	}
 
-	$: {
-		if (chrono) {
-			if (!chronoInterval) {
-				chronoInterval = setInterval(chronometer, 1000);
-			}
-		} else {
-			clearInterval(chronoInterval);
-			chronoInterval = false;
-		}
+	$: if (!chronoInterval) {
+		title = 'Chronometer';
+	} else {
+		title = time;
 	}
 </script>
 
@@ -104,11 +109,11 @@
 
 {#if time != undefined}
 	<h1>{time}</h1>
-	{#if time == '00:00:00' && !chronoInterval}
-		<Button func={toggleChronometer} content={chronoButton} />
+	{#if !chronoInterval && time == '00:00:00'}
+		<Button func={startStop} content={chronoButton} />
 	{:else}
 		<div>
-			<Button func={toggleChronometer} content={chronoButton} />
+			<Button func={startStop} content={chronoButton} />
 			<Button func={resetChronometer} content={'Reset'} />
 		</div>
 	{/if}

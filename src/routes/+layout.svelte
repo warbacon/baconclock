@@ -30,44 +30,52 @@
 
 <style lang="postcss">
 	div.container {
-		padding-top: 15vh;
+		padding-top: 20vh;
 		flex-direction: column;
-		font-size: 3rem;
+		font-size: clamp(2rem, 4vw, 5rem);
 		font-weight: 500;
 		height: 80vh;
+		@media (max-width: 512px) {
+			padding-top: 10vh;
+			height: 70vh;
+		}
 	}
 	div {
 		height: 20vh;
 		display: flex;
 		align-items: center;
+		@media (max-width: 512px) {
+			height: 30vh;
+		}
 		& nav {
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			gap: 1vw;
-			padding: 1.25rem 0;
-			border-radius: 40px;
-			padding: 0 1vw;
-			height: 5rem;
+			gap: 1rem;
+			padding: 1.2rem 1rem;
+			border-radius: 50px;
 			margin: 0 auto;
-			background-color: #2d2f31;
+			background-color: var(--rp-main-overlay);
+			@media (max-width: 512px) {
+				flex-direction: column;
+			}
 		}
 		& a {
 			font-size: larger;
 			padding: 0.75rem 2rem;
-			border-radius: 80px;
+			border-radius: 40px;
 			text-decoration: none;
 			transition-property: color background-color;
 			transition-duration: 250ms;
 			&:hover {
-				background-color: #383b3c;
+				background-color: var(--rp-main-highlight-med);
 			}
 		}
 		& .selected {
-			background-color: #004a77;
-			color: #c2e7ff;
+			background-color: var(--rp-main-gold);
+			color: var(--rp-main-overlay);
 			&:hover {
-				background-color: #0f547d;
+				background-color: var(--rp-main-gold);
 			}
 		}
 	}

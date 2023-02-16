@@ -7,17 +7,16 @@
 
 <style lang="postcss">
 	button {
-		color: #c4c7c5;
-		background-color: #2d2f31;
+		background-color: var(--rp-main-overlay);
 		outline: transparent;
 		border: transparent;
 		font-size: 1.1rem;
 		padding: 0.75rem 2rem;
 		border-radius: 50px;
 		transition: background-color 250ms;
+		cursor: pointer;
 		&:hover {
-			background-color: #383b3c;
-			cursor: pointer;
+			background-color: var(--rp-main-highlight-med);
 		}
 	}
 </style>

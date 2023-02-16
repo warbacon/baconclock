@@ -55,22 +55,22 @@
 	}
 
 	function timer() {
-		seconds--;
-		if (seconds <= -1) {
-			seconds = 0;
-			minutes--;
-			if (minutes <= -1) {
-				minutes = 0;
-				hours--;
-			}
-			if (hours <= 0) {
-				hours = 0;
-				if (currentTime != '00:00:00') {
-					minutes = 0;
-					seconds = 0;
+		if (currentTime == '00:00:00') {
+			clearInterval(timerInterval);
+			timerInterval = false;
+		} else {
+			seconds--;
+			if (seconds <= -1) {
+				seconds = 59;
+				minutes--;
+				if (minutes <= -1) {
+					minutes = 59;
+					hours--;
 				}
-				clearInterval(timerInterval);
-				timerInterval = false;
+				if (hours <= -1) {
+					minutes = 59;
+					hours = 0;
+				}
 			}
 		}
 	}
@@ -109,7 +109,7 @@
 		<Button func={toggleTimer} content={toggleButton} />
 	</div>
 {:else}
-	<input type="time" step="2" bind:value={time} />
+	<input type="time" step="1" bind:value={time} />
 	{#if time != '00:00:00'}
 		<Button func={toggleTimer} content={toggleButton} />
 	{/if}
