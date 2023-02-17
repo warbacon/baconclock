@@ -7,6 +7,7 @@
 	onMount(() => {
 		timeInterval = setInterval(() => {
 			date = new Date();
+			date.toLocaleString('es-ES', { timeZone: 'Europe/Madrid' });
 			console.log('uwu');
 		}, 250);
 	});
@@ -14,18 +15,15 @@
 
 	$: time =
 		date.getHours().toLocaleString('es-ES', {
-			minimumIntegerDigits: 2,
-			useGrouping: false
+			minimumIntegerDigits: 2
 		}) +
 		':' +
 		date.getMinutes().toLocaleString('es-ES', {
-			minimumIntegerDigits: 2,
-			useGrouping: false
+			minimumIntegerDigits: 2
 		}) +
 		':' +
 		date.getSeconds().toLocaleString('es-ES', {
-			minimumIntegerDigits: 2,
-			useGrouping: false
+			minimumIntegerDigits: 2
 		});
 </script>
 
