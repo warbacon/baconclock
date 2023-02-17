@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../styles/global.css';
+	import '../styles/global.scss';
 	import { page } from '$app/stores';
 	let current: string;
 	$: switch ($page.url.pathname) {
@@ -29,7 +29,7 @@
 	<slot />
 </div>
 
-<style lang="postcss">
+<style lang="scss">
 	div.container {
 		padding-top: 20vh;
 		flex-direction: column;
@@ -48,7 +48,7 @@
 		@media (max-width: 512px) {
 			height: 30vh;
 		}
-		& nav {
+		nav {
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -61,7 +61,7 @@
 				flex-direction: column;
 			}
 		}
-		& a {
+		a {
 			font-size: larger;
 			padding: 0.75rem 2rem;
 			border-radius: 40px;
@@ -72,7 +72,7 @@
 				background-color: var(--rp-main-highlight-med);
 			}
 		}
-		& .selected {
+		.selected {
 			background-color: var(--rp-main-gold);
 			color: var(--rp-main-overlay);
 			&:hover {

@@ -119,7 +119,7 @@
 	{/if}
 {/if}
 
-<style>
+<style lang="scss">
 	div {
 		display: flex;
 		align-items: flex-start;

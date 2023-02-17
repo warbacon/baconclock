@@ -17,11 +17,9 @@
 		"@sveltejs/kit": "^1.5.6",
 		"@typescript-eslint/eslint-plugin": "^5.51.0",
 		"@typescript-eslint/parser": "^5.51.0",
-		"autoprefixer": "^10.4.13",
 		"eslint": "^8.34.0",
 		"eslint-config-prettier": "^8.6.0",
 		"eslint-plugin-svelte3": "^4.0.0",
-		"postcss-nesting": "^11.1.0",
 		"prettier": "^2.8.4",
 		"prettier-plugin-svelte": "^2.9.0",
 		"svelte": "^3.55.1",
@@ -32,6 +30,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"postcss": "^8.4.21"
+		"sass": "^1.58.2"
 	}
 }

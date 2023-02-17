@@ -115,7 +115,7 @@
 	{/if}
 {/if}
 
-<style lang="postcss">
+<style lang="scss">
 	div {
 		display: flex;
 		align-items: flex-start;
