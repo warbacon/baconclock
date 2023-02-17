@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../styles/global.css';
 	import { page } from '$app/stores';
 	let current: string;
 	$: switch ($page.url.pathname) {

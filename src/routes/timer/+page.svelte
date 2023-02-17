@@ -109,7 +109,7 @@
 		<Button func={toggleTimer} content={toggleButton} />
 	</div>
 {:else}
-	<input type="time" step="1" bind:value={time} min="00:00:00" max="23:59:59"/>
+	<input type="time" step="1" bind:value={time} min="00:00:00" max="23:59:59" />
 	{#if time != '00:00:00'}
 		<Button func={toggleTimer} content={toggleButton} />
 	{/if}
