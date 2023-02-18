@@ -69,7 +69,7 @@
 			padding: 0.75rem 2rem;
 			border-radius: 40px;
 			text-decoration: none;
-			transition-property: color,background-color;
+			transition-property: color, background-color;
 			transition-duration: 250ms;
 			&:hover {
 				background-color: var(--rp-main-highlight-med);

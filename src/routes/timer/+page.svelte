@@ -23,7 +23,7 @@
 	const toggleTimer = () => {
 		if (timerInterval) {
 			pauseTimer();
-			toggleButton = 'Continue';
+			toggleButton = currentTime != '00:00:00' ? 'Continue' : 'Start'
 		} else {
 			if (time != '00:00:00') {
 				startTimer();
@@ -89,6 +89,8 @@
 			seconds.toLocaleString('es-ES', {
 				minimumIntegerDigits: 2
 			});
+		console.log(currentTime);
+
 	}
 </script>
 

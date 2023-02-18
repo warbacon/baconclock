@@ -44,8 +44,7 @@
 	};
 
 	const resetChronometer = () => {
-		if (chronoInterval)
-			stopChronometer();
+		if (chronoInterval) stopChronometer();
 		chronoButton = 'Start';
 		time = '00:00:00';
 		hours = 0;
