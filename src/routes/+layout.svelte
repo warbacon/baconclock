@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../styles/global.scss';
 	import { page } from '$app/stores';
+
 	let current: string;
 	$: switch ($page.url.pathname) {
 		case '/':
@@ -33,11 +34,12 @@
 	div.container {
 		padding-top: 20vh;
 		flex-direction: column;
-		font-size: clamp(2.25rem, 4vw, 4rem);
-		font-weight: 500;
+		font-size: clamp(2rem, 9vw, 4.5rem);
+		font-weight: 600;
+		text-align: center;
 		height: 80vh;
 		@media (max-width: 512px) {
-			padding-top: 10vh;
+			padding-top: 6rem;
 			height: 70vh;
 		}
 	}
@@ -57,16 +59,17 @@
 			border-radius: 50px;
 			margin: 0 auto;
 			background-color: var(--rp-main-overlay);
+			font-size: larger;
 			@media (max-width: 512px) {
+				font-size: 1rem;
 				flex-direction: column;
 			}
 		}
 		a {
-			font-size: larger;
 			padding: 0.75rem 2rem;
 			border-radius: 40px;
 			text-decoration: none;
-			transition-property: color background-color;
+			transition-property: color,background-color;
 			transition-duration: 250ms;
 			&:hover {
 				background-color: var(--rp-main-highlight-med);

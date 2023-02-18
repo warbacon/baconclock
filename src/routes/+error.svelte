@@ -1,1 +1,1 @@
-<h1>No eziste esta ruta mostro.</h1>
+<h1>An error has occurred.</h1>

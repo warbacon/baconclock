@@ -18,5 +18,8 @@
 		&:hover {
 			background-color: var(--rp-main-highlight-med);
 		}
+		@media (max-width: 512px) {
+				font-size: 1rem;
+			}
 	}
 </style>

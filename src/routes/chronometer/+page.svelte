@@ -18,12 +18,8 @@
 
 	onMount(() => {
 		document.onkeyup = (e) => {
-			if (e.key == ' ' || e.key == 'p') {
-				startStop();
-			}
-			if (e.key == 'r') {
-				resetChronometer();
-			}
+			if (e.key == ' ' || e.key == 'p') startStop();
+			if (e.key == 'r') resetChronometer();
 		};
 	});
 
@@ -32,20 +28,15 @@
 	const startStop = () => {
 		if (chronoInterval) {
 			stopChronometer();
-			if (time == '00:00:00') {
-				chronoButton = 'Start';
-			} else {
-				chronoButton = 'Resume';
-			}
+			if (time == '00:00:00') chronoButton = 'Start';
+			else chronoButton = 'Resume';
 		} else {
 			startChronometer();
 			chronoButton = 'Pause';
 		}
 	};
 
-	const startChronometer = () => {
-		chronoInterval = setInterval(chronometer, 1000);
-	};
+	const startChronometer = () => (chronoInterval = setInterval(chronometer, 1000));
 
 	const stopChronometer = () => {
 		clearInterval(chronoInterval);
@@ -53,9 +44,8 @@
 	};
 
 	const resetChronometer = () => {
-		if (chronoInterval) {
+		if (chronoInterval)
 			stopChronometer();
-		}
 		chronoButton = 'Start';
 		time = '00:00:00';
 		hours = 0;

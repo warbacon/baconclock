@@ -1,8 +1,9 @@
 <script lang="ts">
 	import Button from '../../components/Button.svelte';
+	import { onDestroy, onMount } from 'svelte';
 
 	let toggleButton = 'Start';
-	let stopButton = 'Pause';
+	let resetButton = 'Reset';
 	let time = '00:00:00';
 	let currentTime: string;
 	let timerInterval: any = false;
@@ -10,54 +11,54 @@
 	let minutes = 0;
 	let seconds = 0;
 
+	onMount(() => {
+		document.onkeyup = (e) => {
+			if (e.key == ' ' || e.key == 'p') toggleTimer();
+			if (e.key == 'r') resetTimer();
+		};
+	});
+
+	onDestroy(() => clearInterval(timerInterval));
+
 	const toggleTimer = () => {
-		if (time != '00:00:00') {
-			hours = parseInt(time.substring(0, 2));
-			minutes = parseInt(time.substring(3, 5));
-			seconds = parseInt(time.substring(6));
-			if (timerInterval) {
-				toggleButton = 'Start';
-				clearInterval(timerInterval);
-				timerInterval = false;
-				if (currentTime != '00:00:00') {
-					hours = 0;
-					minutes = 0;
-					seconds = 0;
-				}
-			} else {
-				if (stopButton == 'Continue' && toggleButton == 'Stop') {
-					toggleButton = 'Start';
-					clearInterval(timerInterval);
-					timerInterval = false;
-					hours = 0;
-					minutes = 0;
-					seconds = 0;
-				} else {
-					toggleButton = 'Stop';
-					stopButton = 'Pause';
-					timerInterval = setInterval(timer, 1000);
-				}
+		if (timerInterval) {
+			pauseTimer();
+			toggleButton = 'Continue';
+		} else {
+			if (time != '00:00:00') {
+				startTimer();
+				toggleButton = 'Pause';
 			}
 		}
 	};
 
-	const pauseTimer = () => {
-		if (timerInterval) {
-			stopButton = 'Continue';
-			clearInterval(timerInterval);
-			timerInterval = false;
-		} else {
-			toggleButton = 'Stop';
-			stopButton = 'Pause';
+	const resetTimer = () => {
+		pauseTimer();
+		hours = 0;
+		minutes = 0;
+		seconds = 0;
+		toggleButton = 'Start';
+	};
+
+	const startTimer = () => {
+		if (time != '00:00:00') {
+			if (currentTime == '00:00:00') {
+				hours = parseInt(time.substring(0, 2));
+				minutes = parseInt(time.substring(3, 5));
+				seconds = parseInt(time.substring(6));
+			}
 			timerInterval = setInterval(timer, 1000);
 		}
 	};
 
+	const pauseTimer = () => {
+		clearInterval(timerInterval);
+		timerInterval = false;
+	};
+
 	const timer = () => {
 		if (currentTime == '00:00:00') {
-			toggleButton = 'Start';
-			clearInterval(timerInterval);
-			timerInterval = false;
+			resetTimer();
 		} else {
 			seconds--;
 			if (seconds <= -1) {
@@ -95,19 +96,19 @@
 	<title>Timer</title>
 </svelte:head>
 
-{#if timerInterval || currentTime != '00:00:00'}
-	<h1>{currentTime}</h1>
-	<div>
-		<Button func={pauseTimer} content={stopButton} />
-		<Button func={toggleTimer} content={toggleButton} />
-	</div>
-{:else}
+{#if !timerInterval && currentTime == '00:00:00'}
 	<input type="time" aria-label="time" step="1" bind:value={time} min="00:00:00" max="23:59:59" />
 	{#if time != '00:00:00'}
 		<div>
 			<Button func={toggleTimer} content={toggleButton} />
 		</div>
 	{/if}
+{:else}
+	<h1>{currentTime}</h1>
+	<div>
+		<Button func={toggleTimer} content={toggleButton} />
+		<Button func={resetTimer} content={resetButton} />
+	</div>
 {/if}
 
 <style lang="scss">
