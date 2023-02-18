@@ -1,17 +1,16 @@
 <script lang="ts">
-	import Button from '../Button.svelte';
+	import Button from '../../components/Button.svelte';
 	import { onMount, onDestroy } from 'svelte';
-	import { fade, fly } from 'svelte/transition';
 
-	let hours: number;
-	let minutes: number;
-	let seconds: number;
-	let time: any;
 	let title: string;
 
 	let chronoInterval: any = false;
 	let chronoButton = 'Start';
-	let transition: number;
+
+	let time = '00:00:00';
+	let hours = 0;
+	let minutes = 0;
+	let seconds = 0;
 
 	onMount(() => {
 		document.onkeyup = (e) => {
@@ -22,51 +21,34 @@
 				resetChronometer();
 			}
 		};
-		if (sessionStorage.getItem('time') != null && sessionStorage != undefined) {
-			time = sessionStorage.getItem('time');
-			hours = parseInt(time.substring(0, 2));
-			minutes = parseInt(time.substring(3, 5));
-			seconds = parseInt(time.substring(6));
-			chronoButton = 'Continue';
-		} else {
-			time = '00:00:00';
-			hours = parseInt(time.substring(0, 2));
-			minutes = parseInt(time.substring(3, 5));
-			seconds = parseInt(time.substring(6));
-		}
-
-		switch (sessionStorage.getItem('lastPage')) {
-			case 'clock':
-				transition = 1;
-				break;
-			default:
-				transition = -1;
-				break;
-		}
 	});
 
 	onDestroy(() => {
 		stopChronometer();
 	});
 
-	const startStop = () =>  {
+	const startStop = () => {
 		if (chronoInterval) {
 			stopChronometer();
-			chronoButton = 'Resume';
+			if (time == '00:00:00') {
+				chronoButton = 'Start';
+			} else {
+				chronoButton = 'Resume';
+			}
 		} else {
 			startChronometer();
 			chronoButton = 'Pause';
 		}
-	}
+	};
 
 	const startChronometer = () => {
 		chronoInterval = setInterval(chronometer, 1000);
-	}
+	};
 
 	const stopChronometer = () => {
 		clearInterval(chronoInterval);
 		chronoInterval = false;
-	}
+	};
 
 	const resetChronometer = () => {
 		if (chronoInterval) {
@@ -77,8 +59,7 @@
 		hours = parseInt(time.substring(0, 2));
 		minutes = parseInt(time.substring(3, 5));
 		seconds = parseInt(time.substring(6));
-		sessionStorage.removeItem('time');
-	}
+	};
 
 	const chronometer = () => {
 		seconds++;
@@ -105,8 +86,7 @@
 				minimumIntegerDigits: 2,
 				useGrouping: false
 			});
-		sessionStorage.setItem('time', time);
-	}
+	};
 
 	$: if (!chronoInterval) {
 		title = 'Chronometer';
@@ -119,18 +99,14 @@
 	<title>{title}</title>
 </svelte:head>
 
-{#if time != undefined}
-	<h1 in:fly={{ x: transition * 40 }}>{time}</h1>
-	{#if !chronoInterval && time == '00:00:00'}
-		<div in:fly={{ x: transition * 40 }}>
-			<Button func={startStop} content={chronoButton} />
-		</div>
-	{:else}
-		<div in:fly={{ x: transition * 40 }}>
-			<Button func={startStop} content={chronoButton} />
-			<Button func={resetChronometer} content={'Reset'} />
-		</div>
-	{/if}
+<h1>{time}</h1>
+{#if !chronoInterval && time == '00:00:00'}
+	<Button func={startStop} content={chronoButton} />
+{:else}
+	<div>
+		<Button func={startStop} content={chronoButton} />
+		<Button func={resetChronometer} content={'Reset'} />
+	</div>
 {/if}
 
 <style lang="scss">

@@ -1,7 +1,5 @@
 <script lang="ts">
-	import Button from '../Button.svelte';
-	import { fade, fly } from 'svelte/transition'
-	import { onMount } from "svelte";
+	import Button from '../../components/Button.svelte';
 
 	let toggleButton = 'Start';
 	let stopButton = 'Pause';
@@ -11,10 +9,6 @@
 	let hours = 0;
 	let minutes = 0;
 	let seconds = 0;
-
-	onMount(() => sessionStorage.setItem("lastPage", "timer"))
-	
-
 
 	function toggleTimer() {
 		if (time != '00:00:00') {
@@ -115,9 +109,11 @@
 		<Button func={toggleTimer} content={toggleButton} />
 	</div>
 {:else}
-	<input in:fly={{x:40}} type="time" step="1" bind:value={time} min="00:00:00" max="23:59:59" />
+	<input type="time" step="1" bind:value={time} min="00:00:00" max="23:59:59" />
 	{#if time != '00:00:00'}
-		<Button func={toggleTimer} content={toggleButton} />
+		<div>
+			<Button func={toggleTimer} content={toggleButton} />
+		</div>
 	{/if}
 {/if}
 
