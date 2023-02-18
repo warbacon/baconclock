@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Button from '../Button.svelte';
 	import { onMount, onDestroy } from 'svelte';
+	import { fade, fly } from 'svelte/transition';
+
 	let hours: number;
 	let minutes: number;
 	let seconds: number;
@@ -9,9 +11,10 @@
 
 	let chronoInterval: any = false;
 	let chronoButton = 'Start';
+	let transition: number;
 
 	onMount(() => {
-		document.onkeyup = function (e) {
+		document.onkeyup = (e) => {
 			if (e.key == ' ' || e.key == 'p') {
 				startStop();
 			}
@@ -31,13 +34,22 @@
 			minutes = parseInt(time.substring(3, 5));
 			seconds = parseInt(time.substring(6));
 		}
+
+		switch (sessionStorage.getItem('lastPage')) {
+			case 'clock':
+				transition = 1;
+				break;
+			default:
+				transition = -1;
+				break;
+		}
 	});
 
 	onDestroy(() => {
 		stopChronometer();
 	});
 
-	function startStop() {
+	const startStop = () =>  {
 		if (chronoInterval) {
 			stopChronometer();
 			chronoButton = 'Resume';
@@ -47,16 +59,16 @@
 		}
 	}
 
-	function startChronometer() {
+	const startChronometer = () => {
 		chronoInterval = setInterval(chronometer, 1000);
 	}
 
-	function stopChronometer() {
+	const stopChronometer = () => {
 		clearInterval(chronoInterval);
 		chronoInterval = false;
 	}
 
-	function resetChronometer() {
+	const resetChronometer = () => {
 		if (chronoInterval) {
 			stopChronometer();
 		}
@@ -68,7 +80,7 @@
 		sessionStorage.removeItem('time');
 	}
 
-	function chronometer() {
+	const chronometer = () => {
 		seconds++;
 		if (seconds >= 60) {
 			seconds = 0;
@@ -108,11 +120,13 @@
 </svelte:head>
 
 {#if time != undefined}
-	<h1>{time}</h1>
+	<h1 in:fly={{ x: transition * 40 }}>{time}</h1>
 	{#if !chronoInterval && time == '00:00:00'}
-		<Button func={startStop} content={chronoButton} />
+		<div in:fly={{ x: transition * 40 }}>
+			<Button func={startStop} content={chronoButton} />
+		</div>
 	{:else}
-		<div>
+		<div in:fly={{ x: transition * 40 }}>
 			<Button func={startStop} content={chronoButton} />
 			<Button func={resetChronometer} content={'Reset'} />
 		</div>
