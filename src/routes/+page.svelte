@@ -1,14 +1,12 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
-	let time: string;
+	let time = '00:00:00';
 	let date = new Date();
 	let timeInterval: NodeJS.Timer;
 
 	onMount(() => {
 		timeInterval = setInterval(() => {
 			date = new Date();
-			date.toLocaleString('es-ES', { timeZone: 'Europe/Madrid' });
-			console.log('uwu');
 		}, 250);
 	});
 	onDestroy(() => clearInterval(timeInterval));

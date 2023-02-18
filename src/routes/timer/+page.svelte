@@ -10,7 +10,7 @@
 	let minutes = 0;
 	let seconds = 0;
 
-	function toggleTimer() {
+	const toggleTimer = () => {
 		if (time != '00:00:00') {
 			hours = parseInt(time.substring(0, 2));
 			minutes = parseInt(time.substring(3, 5));
@@ -33,16 +33,15 @@
 					minutes = 0;
 					seconds = 0;
 				} else {
-					console.log('Locura');
 					toggleButton = 'Stop';
 					stopButton = 'Pause';
 					timerInterval = setInterval(timer, 1000);
 				}
 			}
 		}
-	}
+	};
 
-	function pauseTimer() {
+	const pauseTimer = () => {
 		if (timerInterval) {
 			stopButton = 'Continue';
 			clearInterval(timerInterval);
@@ -52,10 +51,11 @@
 			stopButton = 'Pause';
 			timerInterval = setInterval(timer, 1000);
 		}
-	}
+	};
 
-	function timer() {
+	const timer = () => {
 		if (currentTime == '00:00:00') {
+			toggleButton = 'Start';
 			clearInterval(timerInterval);
 			timerInterval = false;
 		} else {
@@ -73,28 +73,21 @@
 				}
 			}
 		}
-	}
+	};
 
 	$: {
 		currentTime =
 			hours.toLocaleString('es-ES', {
-				minimumIntegerDigits: 2,
-				useGrouping: false
+				minimumIntegerDigits: 2
 			}) +
 			':' +
 			minutes.toLocaleString('es-ES', {
-				minimumIntegerDigits: 2,
-				useGrouping: false
+				minimumIntegerDigits: 2
 			}) +
 			':' +
 			seconds.toLocaleString('es-ES', {
-				minimumIntegerDigits: 2,
-				useGrouping: false
+				minimumIntegerDigits: 2
 			});
-
-		if (currentTime == '00:00:00') {
-			toggleButton = 'Start';
-		}
 	}
 </script>
 
@@ -102,7 +95,7 @@
 	<title>Timer</title>
 </svelte:head>
 
-{#if currentTime != '00:00:00'}
+{#if timerInterval || currentTime != '00:00:00'}
 	<h1>{currentTime}</h1>
 	<div>
 		<Button func={pauseTimer} content={stopButton} />

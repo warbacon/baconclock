@@ -3,14 +3,18 @@
 	import { onMount, onDestroy } from 'svelte';
 
 	let title: string;
-
 	let chronoInterval: any = false;
 	let chronoButton = 'Start';
-
 	let time = '00:00:00';
 	let hours = 0;
 	let minutes = 0;
 	let seconds = 0;
+
+	$: if (!chronoInterval) {
+		title = 'Chronometer';
+	} else {
+		title = time;
+	}
 
 	onMount(() => {
 		document.onkeyup = (e) => {
@@ -23,9 +27,7 @@
 		};
 	});
 
-	onDestroy(() => {
-		stopChronometer();
-	});
+	onDestroy(() => stopChronometer());
 
 	const startStop = () => {
 		if (chronoInterval) {
@@ -56,9 +58,9 @@
 		}
 		chronoButton = 'Start';
 		time = '00:00:00';
-		hours = parseInt(time.substring(0, 2));
-		minutes = parseInt(time.substring(3, 5));
-		seconds = parseInt(time.substring(6));
+		hours = 0;
+		minutes = 0;
+		seconds = 0;
 	};
 
 	const chronometer = () => {
@@ -73,26 +75,17 @@
 		}
 		time =
 			hours.toLocaleString('es-ES', {
-				minimumIntegerDigits: 2,
-				useGrouping: false
+				minimumIntegerDigits: 2
 			}) +
 			':' +
 			minutes.toLocaleString('es-ES', {
-				minimumIntegerDigits: 2,
-				useGrouping: false
+				minimumIntegerDigits: 2
 			}) +
 			':' +
 			seconds.toLocaleString('es-ES', {
-				minimumIntegerDigits: 2,
-				useGrouping: false
+				minimumIntegerDigits: 2
 			});
 	};
-
-	$: if (!chronoInterval) {
-		title = 'Chronometer';
-	} else {
-		title = time;
-	}
 </script>
 
 <svelte:head>
