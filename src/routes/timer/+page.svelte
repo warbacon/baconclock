@@ -89,9 +89,12 @@
 			seconds.toLocaleString('es-ES', {
 				minimumIntegerDigits: 2
 			});
-		console.log(currentTime);
-
 	}
+
+	$: if (time == '') {
+		time = '00:00:00'
+	}
+
 </script>
 
 <svelte:head>
