@@ -11,7 +11,7 @@
 	let seconds = 0;
 
 	$: if (!chronoInterval) {
-		title = 'Chronometer';
+		title = 'Stopwatch';
 	} else {
 		title = time;
 	}
