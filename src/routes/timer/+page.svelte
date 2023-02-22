@@ -89,9 +89,11 @@
 			seconds.toLocaleString('es-ES', {
 				minimumIntegerDigits: 2
 			});
+			console.log(time);
+			
 	}
 
-	$: if (time == '') {
+	$: if (time == '' || time == '00:00') {
 		time = '00:00:00'
 	}
 
