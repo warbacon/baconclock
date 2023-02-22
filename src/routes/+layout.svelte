@@ -10,8 +10,8 @@
 		case '/timer':
 			current = 'timer';
 			break;
-		case '/chronometer':
-			current = 'chrono';
+		case '/stopwatch':
+			current = 'stopwatch';
 			break;
 		default:
 			console.error('Esta ruta no existe.');
@@ -22,7 +22,7 @@
 <div>
 	<nav>
 		<a href="/" class={current === 'clock' ? 'selected' : ''}> Clock </a>
-		<a href="/chronometer" class={current === 'chrono' ? 'selected' : ''}> Chronometer </a>
+		<a href="/stopwatch" class={current === 'stopwatch' ? 'selected' : ''}> Stopwatch </a>
 		<a href="/timer" class={current === 'timer' ? 'selected' : ''}> Timer </a>
 	</nav>
 </div>

@@ -22,18 +22,18 @@
 
 	const toggleTimer = () => {
 		if (timerInterval) {
-			pauseTimer();
-			toggleButton = currentTime != '00:00:00' ? 'Continue' : 'Start'
+			stopTimer();
+			toggleButton = currentTime != '00:00:00' ? 'Continue' : 'Start';
 		} else {
 			if (time != '00:00:00') {
 				startTimer();
-				toggleButton = 'Pause';
+				toggleButton = 'Stop';
 			}
 		}
 	};
 
 	const resetTimer = () => {
-		pauseTimer();
+		stopTimer();
 		hours = 0;
 		minutes = 0;
 		seconds = 0;
@@ -51,7 +51,7 @@
 		}
 	};
 
-	const pauseTimer = () => {
+	const stopTimer = () => {
 		clearInterval(timerInterval);
 		timerInterval = false;
 	};
@@ -77,6 +77,7 @@
 	};
 
 	$: {
+		if (time == '' || time == '00:00') time = '00:00:00';
 		currentTime =
 			hours.toLocaleString('es-ES', {
 				minimumIntegerDigits: 2
@@ -89,14 +90,7 @@
 			seconds.toLocaleString('es-ES', {
 				minimumIntegerDigits: 2
 			});
-			console.log(time);
-			
 	}
-
-	$: if (time == '' || time == '00:00') {
-		time = '00:00:00'
-	}
-
 </script>
 
 <svelte:head>

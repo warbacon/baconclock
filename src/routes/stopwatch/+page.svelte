@@ -29,10 +29,10 @@
 		if (chronoInterval) {
 			stopChronometer();
 			if (time == '00:00:00') chronoButton = 'Start';
-			else chronoButton = 'Resume';
+			else chronoButton = 'Continue';
 		} else {
 			startChronometer();
-			chronoButton = 'Pause';
+			chronoButton = 'Stop';
 		}
 	};
 
