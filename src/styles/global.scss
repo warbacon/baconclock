@@ -13,15 +13,22 @@
 	src: url('/font/inter-v12-latin-600.woff2');
 }
 
-* {
-	font-family: 'Inter', sans-serif;
-	color: var(--rp-main-text);
+*,
+*::before,
+*::after {
+	font-family: inherit;
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	color: var(--rp-main-text);
+}
+
+*::selection {
+	background-color: rgba(65, 132, 228, 0.4);
 }
 
 body {
+	font-family: 'Inter', sans-serif;
 	background-color: var(--rp-main-base);
 }
 
