@@ -10,13 +10,13 @@ You can try it out for yourself at https://baconclock.vercel.app.
 
 ## Development
 
-1. Clone the repository.
+1. Clone the repository:
 
 ```bash
 git clone https://github.com/Warbacon/Baconclock.git
 ```
 
-2. Enter the directory and install all dependencies.
+2. Enter the directory and install all dependencies:
 
 ```bash
 cd ./Baconclock
