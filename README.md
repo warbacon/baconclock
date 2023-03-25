@@ -26,5 +26,5 @@ npm i
 3. You can deploy a test server to see the changes instantly by entering the following command:
 
 ```bash
-npm run dev
+pnpm dev
 ```

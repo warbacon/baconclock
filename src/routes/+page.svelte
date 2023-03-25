@@ -2,7 +2,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	let time = '00:00:00';
 	let date = new Date();
-	let timeInterval: NodeJS.Timer;
+	let timeInterval: any;
 
 	onMount(() => {
 		timeInterval = setInterval(() => {
