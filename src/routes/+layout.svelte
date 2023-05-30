@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../styles/global.scss';
+	import '../styles/global.css';
 	import { page } from '$app/stores';
 
 	let current: string;
@@ -30,7 +30,7 @@
 	<slot />
 </div>
 
-<style lang="scss">
+<style lang="postcss">
 	div.container {
 		padding-top: 20vh;
 		flex-direction: column;
@@ -50,7 +50,7 @@
 		@media (max-width: 512px) {
 			height: 30vh;
 		}
-		nav {
+		& nav {
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -65,7 +65,7 @@
 				flex-direction: column;
 			}
 		}
-		a {
+		& a {
 			padding: 0.75rem 2rem;
 			border-radius: 40px;
 			text-decoration: none;
@@ -75,7 +75,7 @@
 				background-color: var(--rp-main-highlight-med);
 			}
 		}
-		.selected {
+		& .selected {
 			background-color: var(--rp-main-gold);
 			color: var(--rp-main-overlay);
 			&:hover {
