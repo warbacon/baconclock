@@ -1,14 +1,17 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { onDestroy, onMount } from 'svelte';
 	let time = '00:00:00';
 	let date = new Date();
 	let timeInterval: any;
 
-	onMount(() => {
-		timeInterval = setInterval(() => {
-			date = new Date();
-		}, 250);
-	});
+	if (browser) {
+		onMount(() => {
+			timeInterval = setInterval(() => {
+				date = new Date();
+			}, 250);
+		});
+	}
 	onDestroy(() => clearInterval(timeInterval));
 
 	$: time =
