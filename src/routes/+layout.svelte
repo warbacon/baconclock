@@ -1,29 +1,15 @@
 <script lang="ts">
 	import '../styles/global.css';
 	import { page } from '$app/stores';
-
-	let current: string;
-	$: switch ($page.url.pathname) {
-		case '/':
-			current = 'clock';
-			break;
-		case '/timer':
-			current = 'timer';
-			break;
-		case '/stopwatch':
-			current = 'stopwatch';
-			break;
-		default:
-			console.error('Esta ruta no existe.');
-			break;
-	}
 </script>
 
 <div>
 	<nav>
-		<a href="/" class={current === 'clock' ? 'selected' : ''}> Clock </a>
-		<a href="/stopwatch" class={current === 'stopwatch' ? 'selected' : ''}> Stopwatch </a>
-		<a href="/timer" class={current === 'timer' ? 'selected' : ''}> Timer </a>
+		<a href="/" class={$page.url.pathname === '/' ? 'selected' : ''}> Clock </a>
+		<a href="/stopwatch" class={$page.url.pathname === '/stopwatch' ? 'selected' : ''}>
+			Stopwatch
+		</a>
+		<a href="/timer" class={$page.url.pathname === '/timer' ? 'selected' : ''}> Timer </a>
 	</nav>
 </div>
 <div class="container">
