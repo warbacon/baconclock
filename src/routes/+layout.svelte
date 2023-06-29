@@ -60,7 +60,7 @@
 			margin: 0 auto;
 			background-color: var(--rp-main-overlay);
 			font-size: larger;
-			@media (max-width: 512px) {
+			@media (width < 512px) {
 				font-size: 1rem;
 				flex-direction: column;
 			}

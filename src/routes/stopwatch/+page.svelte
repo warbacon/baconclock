@@ -91,7 +91,7 @@
 	</div>
 {/if}
 
-<style lang="postcss">
+<style>
 	div {
 		display: flex;
 		align-items: flex-start;
