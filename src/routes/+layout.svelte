@@ -16,7 +16,7 @@
 	<slot />
 </div>
 
-<style lang="postcss">
+<style>
 	div.container {
 		padding-top: 20vh;
 		flex-direction: column;
