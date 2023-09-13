@@ -29,7 +29,7 @@
 </script>
 
 <svelte:head>
-	<title>Baconclock</title>
+	<title>{time}</title>
 </svelte:head>
 
 <h1>{time}</h1>
