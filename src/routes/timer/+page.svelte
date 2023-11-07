@@ -6,7 +6,7 @@
 	let resetButton = 'Reset';
 	let time = '00:00:00';
 	let currentTime: string;
-	let timerInterval: any = false;
+	let timerInterval: any;
 	let hours = 0;
 	let minutes = 0;
 	let seconds = 0;
@@ -92,10 +92,6 @@
 			});
 	}
 </script>
-
-<svelte:head>
-	<title>Timer</title>
-</svelte:head>
 
 {#if !timerInterval && currentTime == '00:00:00'}
 	<input type="time" aria-label="time" step="1" bind:value={time} min="00:00:00" max="23:59:59" />

@@ -5,7 +5,7 @@
 
 <button on:click={func}>{content}</button>
 
-<style lang="postcss">
+<style>
 	button {
 		background-color: var(--rp-main-overlay);
 		outline: transparent;

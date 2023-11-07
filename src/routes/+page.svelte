@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { onDestroy, onMount } from 'svelte';
-	let time = '00:00:00';
 	let date = new Date();
-	let timeInterval: any;
+	let seconds: string = '00';
+	let minutes: string = '00';
+	let hours: string = '00';
+	let timeInterval: number;
 
 	if (browser) {
 		onMount(() => {
@@ -14,22 +16,11 @@
 	}
 	onDestroy(() => clearInterval(timeInterval));
 
-	$: time =
-		date.getHours().toLocaleString('es-ES', {
-			minimumIntegerDigits: 2
-		}) +
-		':' +
-		date.getMinutes().toLocaleString('es-ES', {
-			minimumIntegerDigits: 2
-		}) +
-		':' +
-		date.getSeconds().toLocaleString('es-ES', {
-			minimumIntegerDigits: 2
-		});
+	$: {
+		seconds = String(date.getSeconds()).padStart(2, '0');
+		minutes = String(date.getMinutes()).padStart(2, '0');
+		hours = String(date.getHours()).padStart(2, '0');
+	}
 </script>
 
-<svelte:head>
-	<title>{time}</title>
-</svelte:head>
-
-<h1>{time}</h1>
+<h1>{hours}:{minutes}:{seconds}</h1>

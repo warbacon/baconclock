@@ -2,19 +2,12 @@
 	import Button from '$lib/components/Button.svelte';
 	import { onMount, onDestroy } from 'svelte';
 
-	let title: string;
 	let chronoInterval: any = false;
 	let chronoButton = 'Start';
 	let time = '00:00:00';
 	let hours = 0;
 	let minutes = 0;
 	let seconds = 0;
-
-	$: if (!chronoInterval) {
-		title = 'Stopwatch';
-	} else {
-		title = time;
-	}
 
 	onMount(() => {
 		document.onkeyup = (e) => {
@@ -76,10 +69,6 @@
 			});
 	};
 </script>
-
-<svelte:head>
-	<title>{title}</title>
-</svelte:head>
 
 <h1>{time}</h1>
 {#if !chronoInterval && time == '00:00:00'}
