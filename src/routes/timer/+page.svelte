@@ -6,13 +6,13 @@
 	let resetButton = 'Reset';
 	let time = '00:00:00';
 	let currentTime: string;
-	let timerInterval: any;
-	let hours = 0;
-	let minutes = 0;
-	let seconds = 0;
+	let timerInterval: number;
+	let hours: number = 0;
+	let minutes: number = 0;
+	let seconds: number = 0;
 
 	onMount(() => {
-		document.onkeyup = (e) => {
+		document.onkeyup = (e: KeyboardEvent) => {
 			if (e.key == ' ' || e.key == 'p') toggleTimer();
 			if (e.key == 'r') resetTimer();
 		};
@@ -53,7 +53,7 @@
 
 	const stopTimer = () => {
 		clearInterval(timerInterval);
-		timerInterval = false;
+		timerInterval = 0;
 	};
 
 	const timer = () => {

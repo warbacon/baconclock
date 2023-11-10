@@ -2,7 +2,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import { onMount, onDestroy } from 'svelte';
 
-	let chronoInterval: any = false;
+	let chronoInterval: number = 0;
 	let chronoButton = 'Start';
 	let time = '00:00:00';
 	let hours = 0;
@@ -33,7 +33,7 @@
 
 	const stopChronometer = () => {
 		clearInterval(chronoInterval);
-		chronoInterval = false;
+		chronoInterval = 0;
 	};
 
 	const resetChronometer = () => {

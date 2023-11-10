@@ -8,7 +8,7 @@
 	font-family: 'Inter';
 	font-display: swap;
 	font-weight: 600;
-	src: url('/font/inter-v12-latin-600.woff2');
+	src: url('/font/inter-v12-latin-600.woff2') format('woff2');
 }
 
 :root {
