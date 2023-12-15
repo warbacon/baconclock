@@ -1,7 +1,9 @@
 <script lang="ts">
 	import './styles.css';
 	import { page } from '$app/stores';
-	import { injectSpeedInsights } from "@vercel/speed-insights/sveltekit"
+	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
+
+	injectSpeedInsights;
 </script>
 
 <div>
