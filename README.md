@@ -6,7 +6,7 @@ Open source, ad-free and lightning-fast clock application, built in SvelteKit.
 
 ![Preview](assets/preview.png)
 
-You can try it out for yourself at <https://baconclock.netlify.app>.
+You can try it out for yourself at <https://baconclock.vercel.app>.
 
 ## Development
 
