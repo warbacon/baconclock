@@ -9,10 +9,10 @@
 <div>
 	<nav>
 		<a href="/" class={$page.url.pathname === '/' ? 'selected' : ''}> Clock </a>
-		<a href="/stopwatch" class={$page.url.pathname === '/stopwatch/' ? 'selected' : ''}>
+		<a href="/stopwatch" class={$page.url.pathname.includes('stopwatch') ? 'selected' : ''}>
 			Stopwatch
 		</a>
-		<a href="/timer" class={$page.url.pathname === '/timer/' ? 'selected' : ''}> Timer </a>
+		<a href="/timer" class={$page.url.pathname.includes('timer') ? 'selected' : ''}> Timer </a>
 	</nav>
 </div>
 <div class="container">
