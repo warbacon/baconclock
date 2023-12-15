@@ -3,16 +3,16 @@
 	import { page } from '$app/stores';
 	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
 
-	injectSpeedInsights;
+	injectSpeedInsights();
 </script>
 
 <div>
 	<nav>
 		<a href="/" class={$page.url.pathname === '/' ? 'selected' : ''}> Clock </a>
-		<a href="/stopwatch" class={$page.url.pathname === '/stopwatch' ? 'selected' : ''}>
+		<a href="/stopwatch" class={$page.url.pathname === '/stopwatch/' ? 'selected' : ''}>
 			Stopwatch
 		</a>
-		<a href="/timer" class={$page.url.pathname === '/timer' ? 'selected' : ''}> Timer </a>
+		<a href="/timer" class={$page.url.pathname === '/timer/' ? 'selected' : ''}> Timer </a>
 	</nav>
 </div>
 <div class="container">
