@@ -115,7 +115,7 @@
 		gap: 2rem;
 	}
 	input[type='time'] {
-		font-family: 'Inter';
+		font-family: inherit;
 		font-size: 2em;
 		font-weight: 600;
 		border: none;
