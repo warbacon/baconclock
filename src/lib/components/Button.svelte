@@ -10,6 +10,7 @@
 		background-color: var(--rp-main-overlay);
 		outline: transparent;
 		border: transparent;
+		font-family: inherit;
 		font-size: 1.1rem;
 		padding: 0.75rem 2rem;
 		border-radius: 50px;
