@@ -18,7 +18,7 @@
 
 	onDestroy(() => stopChronometer());
 
-	const startStop = () => {
+	function startStop() {
 		if (chronoInterval) {
 			stopChronometer();
 			if (time == '00:00:00') chronoButton = 'Start';
@@ -27,25 +27,27 @@
 			startChronometer();
 			chronoButton = 'Stop';
 		}
-	};
+	}
 
-	const startChronometer = () => (chronoInterval = setInterval(chronometer, 1000));
+	function startChronometer() {
+		chronoInterval = setInterval(chronometer, 1000);
+	}
 
-	const stopChronometer = () => {
+	function stopChronometer() {
 		clearInterval(chronoInterval);
 		chronoInterval = 0;
-	};
+	}
 
-	const resetChronometer = () => {
+	function resetChronometer() {
 		if (chronoInterval) stopChronometer();
 		chronoButton = 'Start';
 		time = '00:00:00';
 		hours = 0;
 		minutes = 0;
 		seconds = 0;
-	};
+	}
 
-	const chronometer = () => {
+	function chronometer() {
 		seconds++;
 		if (seconds >= 60) {
 			seconds = 0;
@@ -67,7 +69,7 @@
 			seconds.toLocaleString('es-ES', {
 				minimumIntegerDigits: 2
 			});
-	};
+	}
 </script>
 
 <h1>{time}</h1>

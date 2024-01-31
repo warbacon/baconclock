@@ -20,7 +20,7 @@
 
 	onDestroy(() => clearInterval(timerInterval));
 
-	const toggleTimer = () => {
+	function toggleTimer() {
 		if (timerInterval) {
 			stopTimer();
 			toggleButton = currentTime != '00:00:00' ? 'Continue' : 'Start';
@@ -30,17 +30,17 @@
 				toggleButton = 'Stop';
 			}
 		}
-	};
+	}
 
-	const resetTimer = () => {
+	function resetTimer() {
 		stopTimer();
 		hours = 0;
 		minutes = 0;
 		seconds = 0;
 		toggleButton = 'Start';
-	};
+	}
 
-	const startTimer = () => {
+	function startTimer() {
 		if (time != '00:00:00') {
 			if (currentTime == '00:00:00') {
 				hours = parseInt(time.substring(0, 2));
@@ -49,14 +49,14 @@
 			}
 			timerInterval = setInterval(timer, 1000);
 		}
-	};
+	}
 
-	const stopTimer = () => {
+	function stopTimer() {
 		clearInterval(timerInterval);
 		timerInterval = 0;
-	};
+	}
 
-	const timer = () => {
+	function timer() {
 		if (currentTime == '00:00:00') {
 			resetTimer();
 		} else {
@@ -74,7 +74,7 @@
 				}
 			}
 		}
-	};
+	}
 
 	$: {
 		if (time == '' || time == '00:00') time = '00:00:00';
