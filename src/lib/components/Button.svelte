@@ -1,9 +1,13 @@
 <script lang="ts">
-	export let content = 'Botón';
-	export let func: () => void;
+	interface Props {
+		content?: string;
+		func: () => void;
+	}
+
+	let { content = 'Botón', func }: Props = $props();
 </script>
 
-<button on:click={func}>{content}</button>
+<button onclick={func}>{content}</button>
 
 <style>
 	button {

@@ -1,6 +1,11 @@
 <script lang="ts">
 	import './styles.css';
 	import { page } from '$app/stores';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 </script>
 
 <div>
@@ -13,7 +18,7 @@
 	</nav>
 </div>
 <div class="container">
-	<slot />
+	{@render children?.()}
 </div>
 
 <style>

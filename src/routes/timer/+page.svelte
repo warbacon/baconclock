@@ -2,14 +2,14 @@
 	import Button from '$lib/components/Button.svelte';
 	import { onDestroy, onMount } from 'svelte';
 
-	let toggleButton = 'Start';
+	let toggleButton = $state('Start');
 	let resetButton = 'Reset';
-	let time = '00:00:00';
-	let currentTime: string;
-	let timerInterval: number;
-	let hours: number = 0;
-	let minutes: number = 0;
-	let seconds: number = 0;
+	let time = $state('00:00:00');
+	let currentTime: string = $state('00:00:00');
+	let timerInterval: number = $state(0);
+	let hours: number = $state(0);
+	let minutes: number = $state(0);
+	let seconds: number = $state(0);
 
 	onMount(() => {
 		document.onkeyup = (e: KeyboardEvent) => {
@@ -76,7 +76,7 @@
 		}
 	}
 
-	$: {
+	$effect(() => {
 		if (time == '' || time == '00:00') time = '00:00:00';
 		currentTime =
 			hours.toLocaleString('es-ES', {
@@ -90,7 +90,7 @@
 			seconds.toLocaleString('es-ES', {
 				minimumIntegerDigits: 2
 			});
-	}
+	});
 </script>
 
 {#if !timerInterval && currentTime == '00:00:00'}

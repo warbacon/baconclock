@@ -2,9 +2,9 @@
 	import Button from '$lib/components/Button.svelte';
 	import { onMount, onDestroy } from 'svelte';
 
-	let chronoInterval: number = 0;
-	let chronoButton = 'Start';
-	let time = '00:00:00';
+	let chronoInterval: number = $state(0);
+	let chronoButton = $state('Start');
+	let time = $state('00:00:00');
 	let hours = 0;
 	let minutes = 0;
 	let seconds = 0;
