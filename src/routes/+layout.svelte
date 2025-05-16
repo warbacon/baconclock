@@ -59,7 +59,7 @@
 		</nav>
 	</header>
 
-	<main class="flex h-screen w-screen flex-col items-center justify-center space-y-4">
+	<main class="flex h-[100dvh] w-screen flex-col items-center justify-center space-y-4">
 		{@render children()}
 	</main>
 </div>
