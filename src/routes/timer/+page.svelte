@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from '$lib/components/Button.svelte';
+	import Button from '../../lib/components/Button.svelte';
 	import { onDestroy, onMount } from 'svelte';
 
 	let toggleButton = $state('Start');
@@ -93,42 +93,28 @@
 	});
 </script>
 
-{#if !timerInterval && currentTime == '00:00:00'}
-	<input type="time" aria-label="time" step="1" bind:value={time} min="00:00:00" max="23:59:59" />
-	{#if time != '00:00:00'}
-		<div>
+<article>
+	{#if !timerInterval && currentTime == '00:00:00'}
+		<input
+			class="bg-rp-dawn-base dark:bg-rp-base border-b-rp-dawn-highlight-med dark:border-b-rp-highlight-med focus:border-b-rp-dawn-gold focus:dark:border-b-rp-gold border-0 border-b-1 text-center text-6xl font-bold focus:ring-0 md:text-9xl"
+			type="time"
+			aria-label="time"
+			step="1"
+			bind:value={time}
+			min="00:00:00"
+			max="23:59:59"
+		/>
+		{#if time != '00:00:00'}
+			<div class="absolute left-0 bottom-20 flex w-full justify-center gap-4">
+				<Button func={toggleTimer} content={toggleButton} />
+				<Button func={resetTimer} content={resetButton} />
+			</div>
+		{/if}
+	{:else}
+		<h1 class="text-center text-6xl font-bold md:text-9xl">{currentTime}</h1>
+		<div class="absolute left-0 bottom-20 flex w-full justify-center gap-4">
 			<Button func={toggleTimer} content={toggleButton} />
+			<Button func={resetTimer} content={resetButton} />
 		</div>
 	{/if}
-{:else}
-	<h1>{currentTime}</h1>
-	<div>
-		<Button func={toggleTimer} content={toggleButton} />
-		<Button func={resetTimer} content={resetButton} />
-	</div>
-{/if}
-
-<style>
-	div {
-		display: flex;
-		align-items: flex-start;
-		gap: 2rem;
-	}
-	input[type='time'] {
-		font-family: inherit;
-		font-size: 2em;
-		font-weight: 600;
-		border: none;
-		border-bottom: 2px solid var(--rp-main-highlight-med);
-		margin-bottom: 2rem;
-		background-color: transparent;
-		transition: border-bottom 250ms;
-		&:focus {
-			outline: transparent;
-			border-bottom: 2px solid var(--rp-main-highlight-high);
-		}
-	}
-	input[type='time']::-webkit-calendar-picker-indicator {
-		display: none;
-	}
-</style>
+</article>

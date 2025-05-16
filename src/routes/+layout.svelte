@@ -1,78 +1,57 @@
 <script lang="ts">
-	import './styles.css';
-	import { page } from '$app/stores';
-	interface Props {
-		children?: import('svelte').Snippet;
+	import '../app.css';
+	import NavButton from '../lib/components/NavButton.svelte';
+	import type { LayoutProps } from './$types';
+	import { onMount, onDestroy } from 'svelte';
+	import { goto } from '$app/navigation';
+
+	let { children }: LayoutProps = $props();
+
+	function handleKeydown(e: KeyboardEvent) {
+		const target = e.target as HTMLElement;
+
+		if (target.closest('input, textarea') || (target.isContentEditable ?? false)) {
+			return;
+		}
+
+		switch (e.key) {
+			case '1':
+				goto('/clock');
+				break;
+			case '2':
+				goto('/stopwatch');
+				break;
+			case '3':
+				goto('/timer');
+				break;
+			default:
+				return;
+		}
+
+		e.preventDefault();
 	}
 
-	let { children }: Props = $props();
+	onMount(() => {
+		window.addEventListener('keydown', handleKeydown);
+	});
+
+	onDestroy(() => {
+		window.removeEventListener('keydown', handleKeydown);
+	});
 </script>
 
-<div>
-	<nav>
-		<a href="/" class={$page.url.pathname === '/' ? 'selected' : ''}> Clock </a>
-		<a href="/stopwatch" class={$page.url.pathname.includes('stopwatch') ? 'selected' : ''}>
-			Stopwatch
-		</a>
-		<a href="/timer" class={$page.url.pathname.includes('timer') ? 'selected' : ''}> Timer </a>
-	</nav>
-</div>
-<div class="container">
-	{@render children?.()}
-</div>
+<div class="bg-rp-dawn-base text-rp-dawn-text dark:bg-rp-base dark:text-rp-text">
+	<header class="flex w-screen justify-center">
+		<nav
+			class="bg-rp-dawn-surface dark:bg-rp-surface fixed top-4 space-x-2 rounded-full p-5 shadow"
+		>
+			<NavButton href="/clock">Clock</NavButton>
+			<NavButton href="/stopwatch">Stopwatch</NavButton>
+			<NavButton href="/timer">Timer</NavButton>
+		</nav>
+	</header>
 
-<style>
-	div.container {
-		padding-top: 20vh;
-		flex-direction: column;
-		font-size: clamp(2rem, 9vw, 4.5rem);
-		font-weight: 600;
-		text-align: center;
-		height: 80vh;
-		@media (max-width: 512px) {
-			padding-top: 6rem;
-			height: 70vh;
-		}
-	}
-	div {
-		height: 20vh;
-		display: flex;
-		align-items: center;
-		@media (max-width: 512px) {
-			height: 30vh;
-		}
-		& nav {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			gap: 1rem;
-			padding: 1.2rem 1rem;
-			border-radius: 50px;
-			margin: 0 auto;
-			background-color: var(--rp-main-overlay);
-			font-size: larger;
-			@media (width < 512px) {
-				font-size: 1rem;
-				flex-direction: column;
-			}
-		}
-		& a {
-			padding: 0.75rem 2rem;
-			border-radius: 40px;
-			text-decoration: none;
-			transition-property: color, background-color, font-weight;
-			transition-duration: 250ms;
-			&:hover {
-				background-color: var(--rp-main-highlight-med);
-			}
-		}
-		& .selected {
-			font-weight: 600;
-			background-color: var(--rp-main-gold);
-			color: var(--rp-main-overlay);
-			&:hover {
-				background-color: var(--rp-main-gold);
-			}
-		}
-	}
-</style>
+	<main class="flex h-screen w-screen flex-col items-center justify-center space-y-4">
+		{@render children()}
+	</main>
+</div>
