@@ -105,14 +105,14 @@
 			max="23:59:59"
 		/>
 		{#if time != '00:00:00'}
-			<div class="absolute left-0 bottom-20 flex w-full justify-center gap-4">
+			<div class="absolute bottom-20 left-0 flex w-full justify-center gap-4">
 				<Button func={toggleTimer} content={toggleButton} />
 				<Button func={resetTimer} content={resetButton} />
 			</div>
 		{/if}
 	{:else}
 		<h1 class="text-center text-6xl font-bold md:text-9xl">{currentTime}</h1>
-		<div class="absolute left-0 bottom-20 flex w-full justify-center gap-4">
+		<div class="absolute bottom-20 left-0 flex w-full justify-center gap-4">
 			<Button func={toggleTimer} content={toggleButton} />
 			<Button func={resetTimer} content={resetButton} />
 		</div>

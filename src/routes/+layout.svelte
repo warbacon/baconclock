@@ -4,6 +4,7 @@
 	import type { LayoutProps } from './$types';
 	import { onMount, onDestroy } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { browser } from '$app/environment';
 
 	let { children }: LayoutProps = $props();
 
@@ -32,11 +33,15 @@
 	}
 
 	onMount(() => {
-		window.addEventListener('keydown', handleKeydown);
+		if (browser) {
+			window.addEventListener('keydown', handleKeydown);
+		}
 	});
 
 	onDestroy(() => {
-		window.removeEventListener('keydown', handleKeydown);
+		if (browser) {
+			window.removeEventListener('keydown', handleKeydown);
+		}
 	});
 </script>
 
