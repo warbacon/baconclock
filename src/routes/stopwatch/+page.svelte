@@ -3,8 +3,6 @@
 	import Button from '../../lib/components/Button.svelte';
 	import { onMount, onDestroy } from 'svelte';
 
-	export { buttons };
-
 	let chronoInterval: number = $state(0);
 	let chronoButton = $state('Start');
 	let time = $state('00:00:00');
