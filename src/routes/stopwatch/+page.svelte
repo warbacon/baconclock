@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import Button from '../../lib/components/Button.svelte';
 	import { onMount, onDestroy } from 'svelte';
 
@@ -12,10 +13,12 @@
 	let seconds = 0;
 
 	onMount(() => {
-		document.onkeyup = (e) => {
-			if (e.key == ' ' || e.key == 'p') startStop();
-			if (e.key == 'r') resetChronometer();
-		};
+		if (browser) {
+			document.onkeyup = (e) => {
+				if (e.key == ' ' || e.key == 'p') startStop();
+				if (e.key == 'r') resetChronometer();
+			};
+		}
 	});
 
 	onDestroy(() => stopChronometer());
