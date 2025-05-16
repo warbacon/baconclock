@@ -9,6 +9,6 @@
 	const activeStyles = 'text-rp-dawn-surface dark:text-rp-surface bg-rp-gold dark:bg-rp-gold';
 </script>
 
-<a class="{isActive ? activeStyles : inactiveStyles} rounded-full px-4 py-2" {href}
+<a class="{isActive ? activeStyles : inactiveStyles} font-medium rounded-full px-4 py-2" {href}
 	>{@render children()}</a
 >

@@ -76,7 +76,7 @@
 </script>
 
 <article>
-	<h1 class="text-6xl font-bold md:text-9xl">{time}</h1>
+	<h1 class="font-clock font-bold">{time}</h1>
 	<div class="absolute bottom-20 left-0 flex w-full justify-center gap-4">
 		{#if !chronoInterval && time == '00:00:00'}
 			<Button func={startStop} content={chronoButton} />

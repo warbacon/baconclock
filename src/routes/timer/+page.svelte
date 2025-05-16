@@ -96,7 +96,7 @@
 <article>
 	{#if !timerInterval && currentTime == '00:00:00'}
 		<input
-			class="bg-rp-dawn-base dark:bg-rp-base border-b-rp-dawn-highlight-med dark:border-b-rp-highlight-med focus:border-b-rp-dawn-gold focus:dark:border-b-rp-gold border-0 border-b-1 text-center text-6xl font-bold focus:ring-0 md:text-9xl"
+			class="bg-rp-dawn-base font-clock dark:bg-rp-base border-b-rp-dawn-highlight-med dark:border-b-rp-highlight-med focus:border-b-rp-dawn-gold focus:dark:border-b-rp-gold border-0 border-b-1 text-center font-bold focus:ring-0"
 			type="time"
 			aria-label="time"
 			step="1"
@@ -111,7 +111,7 @@
 			</div>
 		{/if}
 	{:else}
-		<h1 class="text-center text-6xl font-bold md:text-9xl">{currentTime}</h1>
+		<h1 class="font-clock text-center font-bold">{currentTime}</h1>
 		<div class="absolute bottom-20 left-0 flex w-full justify-center gap-4">
 			<Button func={toggleTimer} content={toggleButton} />
 			<Button func={resetTimer} content={resetButton} />

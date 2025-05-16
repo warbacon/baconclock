@@ -14,4 +14,4 @@
 	onDestroy(() => clearInterval(timeInterval));
 </script>
 
-<h1 class="text-6xl font-bold md:text-9xl">{hours}:{minutes}:{seconds}</h1>
+<h1 class="font-bold font-clock">{hours}:{minutes}:{seconds}</h1>

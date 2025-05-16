@@ -1,8 +1,12 @@
 <script lang="ts">
 	import '../app.css';
+
+	import '@fontsource/iosevka-etoile/700.css';
+	import '@fontsource-variable/dm-sans';
+
 	import NavButton from '../lib/components/NavButton.svelte';
 	import type { LayoutProps } from './$types';
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 
@@ -11,7 +15,12 @@
 	function handleKeydown(e: KeyboardEvent) {
 		const target = e.target as HTMLElement;
 
-		if (target.closest('input, textarea') || (target.isContentEditable ?? false)) {
+		if (
+			target.closest('input, textarea') ||
+			(target.isContentEditable ?? false) ||
+			e.ctrlKey ||
+			e.altKey
+		) {
 			return;
 		}
 
@@ -37,12 +46,6 @@
 			window.addEventListener('keydown', handleKeydown);
 		}
 	});
-
-	onDestroy(() => {
-		if (browser) {
-			window.removeEventListener('keydown', handleKeydown);
-		}
-	});
 </script>
 
 <div class="bg-rp-dawn-base text-rp-dawn-text dark:bg-rp-base dark:text-rp-text">
@@ -60,3 +63,9 @@
 		{@render children()}
 	</main>
 </div>
+
+<style>
+	:global(h1, input[type='time']) {
+		font-size: clamp(4rem, 10vw, 10rem);
+	}
+</style>
