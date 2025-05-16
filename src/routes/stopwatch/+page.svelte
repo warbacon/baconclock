@@ -75,6 +75,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>{time} - Stopwatch</title>
+</svelte:head>
+
 <article>
 	<h1 class="font-clock font-bold">{time}</h1>
 	<div class="absolute bottom-20 left-0 flex w-full justify-center gap-4">

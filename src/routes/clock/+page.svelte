@@ -3,7 +3,7 @@
 	let date = $state(new Date());
 	let seconds = $derived(String(date.getSeconds()).padStart(2, '0'));
 	let minutes = $derived(String(date.getMinutes()).padStart(2, '0'));
-	let hours = $derived(String(date.getHours()));
+	let hours = $derived(String(date.getHours()).padStart(2, '0'));
 	let timeInterval: number;
 
 	onMount(() => {
@@ -14,4 +14,8 @@
 	onDestroy(() => clearInterval(timeInterval));
 </script>
 
-<h1 class="font-bold font-clock">{hours}:{minutes}:{seconds}</h1>
+<svelte:head>
+	<title>{hours}:{minutes}:{seconds} - Baconclock</title>
+</svelte:head>
+
+<h1 class="font-clock font-bold">{hours}:{minutes}:{seconds}</h1>

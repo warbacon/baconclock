@@ -66,6 +66,6 @@
 
 <style>
 	:global(h1, input[type='time']) {
-		font-size: clamp(4rem, 10vw, 10rem);
+		font-size: clamp(3rem, 16vw, 9rem);
 	}
 </style>

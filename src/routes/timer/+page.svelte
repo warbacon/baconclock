@@ -93,6 +93,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>{currentTime} - Timer</title>
+</svelte:head>
+
 <article>
 	{#if !timerInterval && currentTime == '00:00:00'}
 		<input
