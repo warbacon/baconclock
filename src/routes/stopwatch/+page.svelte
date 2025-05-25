@@ -76,7 +76,11 @@
 </script>
 
 <svelte:head>
-	<title>{time} - Stopwatch</title>
+	{#if browser}
+		<title>{time} - Stopwatch</title>
+	{:else}
+		<title>Stopwatch</title>
+	{/if}
 </svelte:head>
 
 <article>

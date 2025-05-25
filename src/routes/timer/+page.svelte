@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import Button from '../../lib/components/Button.svelte';
 	import { onDestroy, onMount } from 'svelte';
 
@@ -94,7 +95,11 @@
 </script>
 
 <svelte:head>
-	<title>{currentTime} - Timer</title>
+	{#if browser}
+		<title>{currentTime} - Timer</title>
+	{:else}
+		<title>Timer</title>
+	{/if}
 </svelte:head>
 
 <article>

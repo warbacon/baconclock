@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { onDestroy, onMount } from 'svelte';
 	let date = $state(new Date());
 	let seconds = $derived(String(date.getSeconds()).padStart(2, '0'));
@@ -11,11 +12,16 @@
 			date = new Date();
 		}, 250);
 	});
+
 	onDestroy(() => clearInterval(timeInterval));
 </script>
 
 <svelte:head>
-	<title>{hours}:{minutes}:{seconds} - Baconclock</title>
+	{#if browser}
+		<title>{hours}:{minutes}:{seconds} - Baconclock</title>
+	{:else}
+		<title>Baconclock</title>
+	{/if}
 </svelte:head>
 
 <h1 class="font-clock font-bold">{hours}:{minutes}:{seconds}</h1>
