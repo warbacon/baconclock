@@ -58,12 +58,12 @@
 		</NavButton>
 
 		<NavButton href="/stopwatch">
-			<Hourglass class="h-5 w-5" />
+			<Timer class="h-5 w-5" />
 			<span class="hidden md:inline">Stopwatch</span>
 		</NavButton>
 
 		<NavButton href="/timer">
-			<Timer class="h-5 w-5" />
+			<Hourglass class="h-5 w-5" />
 			<span class="hidden md:inline">Timer</span>
 		</NavButton>
 	</nav>
