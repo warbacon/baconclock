@@ -50,7 +50,7 @@
 
 <header class="flex w-screen justify-center">
 	<nav
-		class="fixed bottom-0 my-4 flex justify-center gap-2 rounded-full bg-zinc-200 p-2 md:top-0 md:bottom-auto dark:bg-zinc-800"
+		class="fixed bottom-0 my-4 flex justify-center gap-2 border-zinc-300 dark:border-zinc-700/70 border rounded-full bg-zinc-200 p-2 md:top-0 md:bottom-auto dark:bg-zinc-800"
 	>
 		<NavButton href="/clock" class="flex flex-col items-center md:flex-row md:gap-2">
 			<Clock class="h-5 w-5" />
