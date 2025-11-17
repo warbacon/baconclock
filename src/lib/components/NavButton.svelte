@@ -16,7 +16,7 @@
 <Button
 	class={cn(
 		isActive
-			? 'bg-orange-600 text-zinc-200 hover:bg-orange-600 hover:text-zinc-200 dark:bg-emerald-300 dark:text-zinc-800 hover:dark:bg-emerald-300 hover:dark:text-zinc-800'
+			? 'bg-orange-600 text-zinc-200 hover:bg-orange-600 hover:text-zinc-200 dark:bg-teal-300 dark:text-zinc-800 hover:dark:bg-teal-300 hover:dark:text-zinc-800'
 			: '' + 'inline-flex items-center justify-center gap-2 text-zinc-600 dark:text-zinc-300',
 		className
 	)}
