@@ -2,38 +2,6 @@
 @plugin '@tailwindcss/forms';
 
 @theme {
-	--color-rp-base: #191724;
-	--color-rp-surface: #1f1d2e;
-	--color-rp-overlay: #26233a;
-	--color-rp-muted: #6e6a86;
-	--color-rp-subtle: #908caa;
-	--color-rp-text: #e0def4;
-	--color-rp-love: #eb6f92;
-	--color-rp-gold: #f6c177;
-	--color-rp-rose: #ebbcba;
-	--color-rp-pine: #31748f;
-	--color-rp-foam: #9ccfd8;
-	--color-rp-iris: #c4a7e7;
-	--color-rp-highlight-low: #21202e;
-	--color-rp-highlight-med: #403d52;
-	--color-rp-highlight-high: #524f67;
-
-	--color-rp-dawn-base: #faf4ed;
-	--color-rp-dawn-surface: #fffaf3;
-	--color-rp-dawn-overlay: #f2e9e1;
-	--color-rp-dawn-muted: #9893a5;
-	--color-rp-dawn-subtle: #797593;
-	--color-rp-dawn-text: #575279;
-	--color-rp-dawn-love: #b4637a;
-	--color-rp-dawn-gold: #ea9d34;
-	--color-rp-dawn-rose: #d7827e;
-	--color-rp-dawn-pine: #286983;
-	--color-rp-dawn-foam: #56949f;
-	--color-rp-dawn-iris: #907aa9;
-	--color-rp-dawn-highlight-low: #f4ede8;
-	--color-rp-dawn-highlight-med: #dfdad9;
-	--color-rp-dawn-highlight-high: #cecacd;
-
 	--font-clock: 'DM Mono', monospace;
 	--font-sans: 'DM Sans Variable', sans;
 }

@@ -127,7 +127,7 @@
 <article>
 	{#if showInput}
 		<input
-			class="bg-rp-dawn-base dark:bg-rp-base font-clock border-b-rp-dawn-highlight-med dark:border-b-rp-highlight-med focus:border-b-rp-dawn-gold focus:dark:border-b-rp-gold border-0 border-b text-center font-bold focus:ring-0"
+			class="font-clock border-0 border-b border-zinc-400 bg-transparent text-center font-bold text-inherit focus:border-orange-600 focus:ring-0 dark:border-zinc-700 focus:dark:border-emerald-300"
 			type="time"
 			aria-label="time"
 			step="1"

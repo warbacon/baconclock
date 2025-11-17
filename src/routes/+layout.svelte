@@ -50,19 +50,19 @@
 
 <header class="flex w-screen justify-center">
 	<nav
-		class="bg-rp-dawn-surface dark:bg-rp-surface fixed bottom-0 mx-2 my-5 space-x-1 rounded-full p-2 shadow-md md:top-0 md:bottom-auto md:min-w-[430px]"
+		class="fixed bottom-0 flex w-full justify-center gap-8 bg-zinc-200 p-2 md:top-0 md:bottom-auto md:my-4 md:w-auto md:gap-2 md:rounded-full dark:bg-zinc-800"
 	>
-		<NavButton href="/clock">
+		<NavButton href="/clock" class="flex flex-col items-center md:flex-row md:gap-2">
 			<Clock class="h-5 w-5" />
 			<span class="hidden md:inline">Clock</span>
 		</NavButton>
 
-		<NavButton href="/stopwatch">
+		<NavButton href="/stopwatch" class="flex flex-col items-center md:flex-row md:gap-2">
 			<Timer class="h-5 w-5" />
 			<span class="hidden md:inline">Stopwatch</span>
 		</NavButton>
 
-		<NavButton href="/timer">
+		<NavButton href="/timer" class="flex flex-col items-center md:flex-row md:gap-2">
 			<Hourglass class="h-5 w-5" />
 			<span class="hidden md:inline">Timer</span>
 		</NavButton>

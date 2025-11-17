@@ -10,7 +10,7 @@
 
 <Button.Root
 	class={cn(
-		'bg-rp-dawn-surface dark:bg-rp-surface hover:bg-rp-dawn-overlay hover:dark:bg-rp-overlay inline-block rounded-full px-6 py-2 transition-transform hover:cursor-pointer active:scale-[0.95]',
+		'inline-block rounded-full bg-zinc-200 px-6 py-2 font-semibold transition-transform hover:cursor-pointer hover:bg-zinc-300 active:scale-[0.95] dark:bg-zinc-800 hover:dark:bg-zinc-700',
 		className
 	)}
 	{...props}

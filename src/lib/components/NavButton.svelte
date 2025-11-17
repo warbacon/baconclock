@@ -15,12 +15,9 @@
 
 <Button
 	class={cn(
-		`${
-			isActive
-				? 'hover:text-rp-dawn-text hover:dark:text-rp-surface text-rp-dawn-text dark:text-rp-surface bg-rp-gold hover:bg-rp-gold dark:bg-rp-gold hover:dark:bg-rp-gold font-bold'
-				: 'text-rp-dawn-muted dark:text-rp-muted hover:bg-rp-dawn-overlay hover:dark:bg-rp-overlay'
-		}
-	inline-flex items-center justify-center gap-2 transition-[font-weight,scale]`,
+		isActive
+			? 'bg-orange-600 text-zinc-200 hover:bg-orange-600 hover:text-zinc-200 dark:bg-emerald-300 dark:text-zinc-800 hover:dark:bg-emerald-300 hover:dark:text-zinc-800'
+			: '' + 'inline-flex items-center justify-center gap-2 text-zinc-600 dark:text-zinc-300',
 		className
 	)}
 	{href}
