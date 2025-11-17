@@ -1,13 +1,19 @@
 <script lang="ts">
-	interface Props {
-		content?: string;
-		func: () => void;
-	}
+	import { cn } from '$lib/util';
+	import { Button } from 'bits-ui';
+	import type { Button as ButtonPrimitive } from 'bits-ui';
 
-	let { content = 'Botón', func }: Props = $props();
+	type Props = ButtonPrimitive.RootProps;
+
+	let { class: className, children, ...props }: Props = $props();
 </script>
 
-<button
-	class="bg-rp-dawn-surface dark:bg-rp-surface hover:bg-rp-dawn-overlay hover:dark:bg-rp-overlay rounded-full px-6 py-2 shadow"
-	onclick={func}>{content}</button
+<Button.Root
+	class={cn(
+		'bg-rp-dawn-surface dark:bg-rp-surface hover:bg-rp-dawn-overlay hover:dark:bg-rp-overlay inline-block rounded-full px-6 py-2 transition-transform hover:cursor-pointer active:scale-[0.95]',
+		className
+	)}
+	{...props}
 >
+	{@render children?.()}
+</Button.Root>

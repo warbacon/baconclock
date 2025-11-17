@@ -1,111 +1,133 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import Button from '../../lib/components/Button.svelte';
+	import Button from '$lib/components/Button.svelte';
 	import { onDestroy, onMount } from 'svelte';
 
-	let toggleButton = $state('Start');
-	let resetButton = 'Reset';
+	// State
 	let time = $state('00:00:00');
-	let currentTime: string = $state('00:00:00');
-	let timerInterval: number = $state(0);
-	let hours: number = $state(0);
-	let minutes: number = $state(0);
-	let seconds: number = $state(0);
+	let hours = $state(0);
+	let minutes = $state(0);
+	let seconds = $state(0);
+	let timerInterval = $state(0);
 
+	// Derived state
+	const isRunning = $derived(timerInterval !== 0);
+	const isAtZero = $derived(hours === 0 && minutes === 0 && seconds === 0);
+	const showInput = $derived(!isRunning && isAtZero);
+
+	const currentTime = $derived(`${pad(hours)}:${pad(minutes)}:${pad(seconds)}`);
+
+	const toggleButtonText = $derived(isRunning ? 'Stop' : isAtZero ? 'Start' : 'Continue');
+
+	// Lifecycle
 	onMount(() => {
-		document.onkeyup = (e: KeyboardEvent) => {
-			if (e.key == ' ' || e.key == 'p') toggleTimer();
-			if (e.key == 'r') resetTimer();
-		};
+		document.onkeyup = handleKeyPress;
 	});
 
-	onDestroy(() => clearInterval(timerInterval));
+	onDestroy(() => {
+		clearInterval(timerInterval);
+	});
 
-	function toggleTimer() {
-		if (timerInterval) {
+	// Utilities
+	function pad(num: number): string {
+		return num.toLocaleString('es-ES', { minimumIntegerDigits: 2 });
+	}
+
+	function parseTimeInput(timeStr: string): void {
+		if (!timeStr || timeStr === '00:00') {
+			time = '00:00:00';
+			return;
+		}
+
+		hours = parseInt(timeStr.substring(0, 2));
+		minutes = parseInt(timeStr.substring(3, 5));
+		seconds = parseInt(timeStr.substring(6));
+	}
+
+	// Event handlers
+	function handleKeyPress(e: KeyboardEvent): void {
+		if (e.key === ' ' || e.key === 'p') {
+			e.preventDefault();
+			toggleTimer();
+		}
+		if (e.key === 'r') {
+			e.preventDefault();
+			resetTimer();
+		}
+	}
+
+	function toggleTimer(): void {
+		if (isRunning) {
 			stopTimer();
-			toggleButton = currentTime != '00:00:00' ? 'Continue' : 'Start';
 		} else {
-			if (time != '00:00:00') {
-				startTimer();
-				toggleButton = 'Stop';
-			}
+			startTimer();
 		}
 	}
 
-	function resetTimer() {
-		stopTimer();
-		hours = 0;
-		minutes = 0;
-		seconds = 0;
-		toggleButton = 'Start';
-	}
+	function startTimer(): void {
+		if (isAtZero && time !== '00:00:00') {
+			parseTimeInput(time);
+		}
 
-	function startTimer() {
-		if (time != '00:00:00') {
-			if (currentTime == '00:00:00') {
-				hours = parseInt(time.substring(0, 2));
-				minutes = parseInt(time.substring(3, 5));
-				seconds = parseInt(time.substring(6));
-			}
-			timerInterval = setInterval(timer, 1000);
+		if (!isAtZero) {
+			timerInterval = setInterval(tick, 1000);
 		}
 	}
 
-	function stopTimer() {
+	function stopTimer(): void {
 		clearInterval(timerInterval);
 		timerInterval = 0;
 	}
 
-	function timer() {
-		if (currentTime == '00:00:00') {
+	function resetTimer(): void {
+		stopTimer();
+		hours = 0;
+		minutes = 0;
+		seconds = 0;
+		time = '00:00:00';
+	}
+
+	function tick(): void {
+		if (isAtZero) {
 			resetTimer();
-		} else {
-			seconds--;
-			if (seconds <= -1) {
-				seconds = 59;
-				minutes--;
-				if (minutes <= -1) {
-					minutes = 59;
-					hours--;
-				}
-				if (hours <= -1) {
-					minutes = 59;
+			return;
+		}
+
+		seconds--;
+
+		if (seconds < 0) {
+			seconds = 59;
+			minutes--;
+
+			if (minutes < 0) {
+				minutes = 59;
+				hours--;
+
+				if (hours < 0) {
 					hours = 0;
+					minutes = 0;
+					seconds = 0;
 				}
 			}
 		}
 	}
 
+	// Effects
 	$effect(() => {
-		if (time == '' || time == '00:00') time = '00:00:00';
-		currentTime =
-			hours.toLocaleString('es-ES', {
-				minimumIntegerDigits: 2
-			}) +
-			':' +
-			minutes.toLocaleString('es-ES', {
-				minimumIntegerDigits: 2
-			}) +
-			':' +
-			seconds.toLocaleString('es-ES', {
-				minimumIntegerDigits: 2
-			});
+		if (time === '' || time === '00:00') {
+			time = '00:00:00';
+		}
 	});
 </script>
 
 <svelte:head>
-	{#if browser}
-		<title>{currentTime} - Timer</title>
-	{:else}
-		<title>Timer</title>
-	{/if}
+	<title>{browser ? `${currentTime} - Timer` : 'Timer'}</title>
 </svelte:head>
 
 <article>
-	{#if !timerInterval && currentTime == '00:00:00'}
+	{#if showInput}
 		<input
-			class="bg-rp-dawn-base font-clock dark:bg-rp-base border-b-rp-dawn-highlight-med dark:border-b-rp-highlight-med focus:border-b-rp-dawn-gold focus:dark:border-b-rp-gold border-0 border-b-1 text-center font-bold focus:ring-0"
+			class="bg-rp-dawn-base dark:bg-rp-base font-clock border-b-rp-dawn-highlight-med dark:border-b-rp-highlight-med focus:border-b-rp-dawn-gold focus:dark:border-b-rp-gold border-0 border-b text-center font-bold focus:ring-0"
 			type="time"
 			aria-label="time"
 			step="1"
@@ -113,17 +135,31 @@
 			min="00:00:00"
 			max="23:59:59"
 		/>
-		{#if time != '00:00:00'}
-			<div class="absolute bottom-20 left-0 flex w-full justify-center gap-4">
-				<Button func={toggleTimer} content={toggleButton} />
-				<Button func={resetTimer} content={resetButton} />
+		{#if time !== '00:00:00'}
+			<div class="absolute bottom-[25dvh] left-0 flex w-full justify-center gap-4">
+				<Button onclick={toggleTimer}>{toggleButtonText}</Button>
+				<Button onclick={resetTimer}>Reset</Button>
 			</div>
 		{/if}
 	{:else}
 		<h1 class="font-clock text-center font-bold">{currentTime}</h1>
-		<div class="absolute bottom-20 left-0 flex w-full justify-center gap-4">
-			<Button func={toggleTimer} content={toggleButton} />
-			<Button func={resetTimer} content={resetButton} />
+		<div class="absolute bottom-[25dvh] left-0 flex w-full justify-center gap-4">
+			<Button onclick={toggleTimer}>{toggleButtonText}</Button>
+			<Button onclick={resetTimer}>Reset</Button>
 		</div>
 	{/if}
 </article>
+
+<style>
+	input[type='time'] {
+		-webkit-appearance: none;
+		appearance: none;
+		padding: 0;
+	}
+
+	input[type='time']::-webkit-calendar-picker-indicator,
+	input[type='time']::-webkit-clear-button,
+	input[type='time']::-webkit-inner-spin-button {
+		display: none;
+	}
+</style>

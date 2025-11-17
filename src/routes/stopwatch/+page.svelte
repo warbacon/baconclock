@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import Button from '../../lib/components/Button.svelte';
+	import Button from '$lib/components/Button.svelte';
 	import { onMount, onDestroy } from 'svelte';
 
 	let chronoInterval: number = $state(0);
@@ -85,12 +85,12 @@
 
 <article>
 	<h1 class="font-clock font-bold">{time}</h1>
-	<div class="absolute bottom-20 left-0 flex w-full justify-center gap-4">
-		{#if !chronoInterval && time == '00:00:00'}
-			<Button func={startStop} content={chronoButton} />
-		{:else}
-			<Button func={startStop} content={chronoButton} />
-			<Button func={resetChronometer} content={'Reset'} />
+	<div class="absolute bottom-[25dvh] left-0 flex w-full justify-center gap-4">
+		<Button onclick={startStop}>
+			{chronoButton}
+		</Button>
+		{#if chronoInterval || time != '00:00:00'}
+			<Button onclick={resetChronometer}>Reset</Button>
 		{/if}
 	</div>
 </article>
