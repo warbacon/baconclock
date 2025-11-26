@@ -6,15 +6,39 @@
 
 	import NavButton from '../lib/components/NavButton.svelte';
 	import type { LayoutProps } from './$types';
-	import { onMount } from 'svelte';
+	import { onMount, type Component } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
-	import { resolve } from '$app/paths';
 	import Clock from '@lucide/svelte/icons/clock';
 	import Hourglass from '@lucide/svelte/icons/hourglass';
 	import Timer from '@lucide/svelte/icons/timer';
+	import type { IconProps } from '@lucide/svelte';
 
 	let { children }: LayoutProps = $props();
+
+	type Route = {
+		path: string;
+		name: string;
+		icon: Component<IconProps, {}, ''>;
+	};
+
+	const routes: Route[] = [
+		{
+			path: 'clock',
+			name: 'Clock',
+			icon: Clock
+		},
+		{
+			path: 'stopwatch',
+			name: 'Stopwatch',
+			icon: Timer
+		},
+		{
+			path: 'timer',
+			name: 'Timer',
+			icon: Hourglass
+		}
+	] as const;
 
 	onMount(() => {
 		if (browser) {
@@ -30,18 +54,12 @@
 					return;
 				}
 
-				switch (e.key) {
-					case '1':
-						goto(resolve('/clock'));
-						break;
-					case '2':
-						goto(resolve('/stopwatch'));
-						break;
-					case '3':
-						goto(resolve('/timer'));
-						break;
-					default:
-						return;
+				const keyNumber = parseInt(e.key);
+				if (isNaN(keyNumber) || keyNumber < 1 || keyNumber > routes.length) return;
+
+				const route = routes[keyNumber - 1];
+				if (route) {
+					goto('/' + route.path);
 				}
 			});
 		}
@@ -50,22 +68,14 @@
 
 <header class="flex w-screen justify-center">
 	<nav
-		class="fixed bottom-0 my-4 flex justify-center gap-2 border-zinc-300 dark:border-zinc-700/70 border rounded-full bg-zinc-200 p-2 md:top-0 md:bottom-auto dark:bg-zinc-800"
+		class="fixed bottom-0 my-4 flex justify-center gap-2 rounded-full border border-zinc-300 bg-zinc-200 p-2 md:top-0 md:bottom-auto dark:border-zinc-700/70 dark:bg-zinc-800"
 	>
-		<NavButton href="/clock" class="flex flex-col items-center md:flex-row md:gap-2">
-			<Clock class="h-5 w-5" />
-			<span class="hidden md:inline">Clock</span>
-		</NavButton>
-
-		<NavButton href="/stopwatch" class="flex flex-col items-center md:flex-row md:gap-2">
-			<Timer class="h-5 w-5" />
-			<span class="hidden md:inline">Stopwatch</span>
-		</NavButton>
-
-		<NavButton href="/timer" class="flex flex-col items-center md:flex-row md:gap-2">
-			<Hourglass class="h-5 w-5" />
-			<span class="hidden md:inline">Timer</span>
-		</NavButton>
+		{#each routes as route}
+			<NavButton href="/{route.path}" class="flex flex-col items-center md:flex-row md:gap-2">
+				<route.icon class="h-5 w-5" />
+				<span class="hidden md:inline">{route.name}</span>
+			</NavButton>
+		{/each}
 	</nav>
 </header>
 
