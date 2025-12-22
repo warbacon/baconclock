@@ -1,7 +1,0 @@
-@import 'tailwindcss';
-@plugin '@tailwindcss/forms';
-
-@theme {
-	--font-clock: 'DM Mono', monospace;
-	--font-sans: 'DM Sans Variable', sans;
-}
