@@ -128,12 +128,19 @@
 </script>
 
 <svelte:head>
-	<title>{browser ? `${currentTime} - Timer` : 'Timer'}</title>
+	<title>
+		{`${browser && isRunning ? `${currentTime} - ` : ''}Timer | Baconclock`}
+	</title>
+	<link rel="canonical" href="https://baconclock.vercel.app/timer" />
+	<meta
+		name="description"
+		content="Free online countdown timer with customizable duration. Perfect for cooking, Pomodoro technique, workouts, and study sessions. No ads, no tracking."
+	/>
 </svelte:head>
 
 <article>
 	{#if showInput}
-		<TimerInput class="font-clock font-bold" bind:value={time} />
+		<TimerInput class="font-clock " bind:value={time} />
 		{#if time !== '00:00:00'}
 			<div class="absolute bottom-[25dvh] left-0 flex w-full justify-center gap-4">
 				<Button onclick={toggleTimer}>{toggleButtonText}</Button>
@@ -141,7 +148,7 @@
 			</div>
 		{/if}
 	{:else}
-		<h1 class="font-clock font-bold">{currentTime}</h1>
+		<h1 class="font-clock">{currentTime}</h1>
 		<div class="absolute bottom-[25dvh] left-0 flex w-full justify-center gap-4">
 			<Button onclick={toggleTimer}>{toggleButtonText}</Button>
 			<Button onclick={resetTimer}>Reset</Button>

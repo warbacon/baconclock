@@ -85,15 +85,18 @@
 </script>
 
 <svelte:head>
-	{#if browser}
-		<title>{time} - Stopwatch</title>
-	{:else}
-		<title>Stopwatch</title>
-	{/if}
+	<title>
+		{`${browser && chronoInterval ? `${time} - ` : ''}Stopwatch | Baconclock`}
+	</title>
+	<link rel="canonical" href="https://baconclock.vercel.app/stopwatch" />
+	<meta
+		name="description"
+		content="Free online stopwatch with start, stop, and reset functionality. Precision timing for sports, cooking, workouts, and more. Keyboard shortcuts supported."
+	/>
 </svelte:head>
 
 <article>
-	<h1 class="font-clock font-bold">{time}</h1>
+	<h1 class="font-clock">{time}</h1>
 	<div class="absolute bottom-[25dvh] left-0 flex w-full justify-center gap-4">
 		<Button onclick={startStop}>
 			{chronoButton}

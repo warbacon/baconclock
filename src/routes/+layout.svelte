@@ -66,6 +66,19 @@
 	});
 </script>
 
+<svelte:head>
+	<meta charset="utf-8" />
+	<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+	<meta name="apple-mobile-web-app-title" content="Baconclock" />
+	<link rel="manifest" href="/site.webmanifest" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="theme-color" content="#191724" />
+	<meta name="color-scheme" content="light dark" />
+</svelte:head>
+
 <header class="flex w-screen justify-center">
 	<nav
 		class="fixed bottom-0 my-4 flex justify-center gap-2 rounded-full border border-zinc-300 bg-zinc-200 p-2 md:top-0 md:bottom-auto dark:border-zinc-700/70 dark:bg-zinc-800"

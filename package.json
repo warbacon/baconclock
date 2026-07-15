@@ -30,12 +30,9 @@
 	"dependencies": {
 		"@fontsource-variable/dm-sans": "^5.2.8",
 		"@fontsource/dm-mono": "^5.2.7",
-		"@fontsource/iosevka-etoile": "^5.2.5",
 		"@lucide/svelte": "^1.24.0",
-		"cnfast": "^0.0.8",
 		"@sveltejs/adapter-vercel": "^6.3.4",
 		"bits-ui": "^2.18.1",
-		"clsx": "^2.1.1",
-		"tailwind-merge": "^3.6.0"
+		"cnfast": "^0.0.8"
 	}
 }

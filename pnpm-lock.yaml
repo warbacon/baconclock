@@ -14,9 +14,6 @@ importers:
       '@fontsource/dm-mono':
         specifier: ^5.2.7
         version: 5.2.7
-      '@fontsource/iosevka-etoile':
-        specifier: ^5.2.5
-        version: 5.2.5
       '@lucide/svelte':
         specifier: ^1.24.0
         version: 1.24.0(svelte@5.56.5)
@@ -26,15 +23,9 @@ importers:
       bits-ui:
         specifier: ^2.18.1
         version: 2.18.1(@internationalized/date@3.12.2)(@sveltejs/kit@2.69.3(@sveltejs/vite-plugin-svelte@7.2.0(svelte@5.56.5)(vite@8.1.4(esbuild@0.28.1)(jiti@2.7.0)))(svelte@5.56.5)(typescript@6.0.3)(vite@8.1.4(esbuild@0.28.1)(jiti@2.7.0)))(svelte@5.56.5)
-      clsx:
-        specifier: ^2.1.1
-        version: 2.1.1
       cnfast:
         specifier: ^0.0.8
         version: 0.0.8
-      tailwind-merge:
-        specifier: ^3.6.0
-        version: 3.6.0
     devDependencies:
       '@sveltejs/kit':
         specifier: ^2.69.3
@@ -251,9 +242,6 @@ packages:
 
   '@fontsource/dm-mono@5.2.7':
     resolution: {integrity: sha512-Ma1az2atTVgQWuOWwjuxx26p/6A6CU9HBNKq1CFV6YKpKhpswnf9ry9Ql4+T6bTZzkdtSfS6tjJvqZOljVzIFQ==}
-
-  '@fontsource/iosevka-etoile@5.2.5':
-    resolution: {integrity: sha512-DaqaNB1G6qhGh+D+WxZUrln0UJmrM7qXgJgdeXm3U1ekcIph2aWPAcmI1edDj9FLkuGl2ZU9TYywIvzVF6lz0Q==}
 
   '@internationalized/date@3.12.2':
     resolution: {integrity: sha512-FY1Y+H64NDs+HAF6omlnWxm3mEpfgaCSWtL5l551ZZfImA+kGjPFgrnJrGjH6lfmLL0g8Z/mBu1R3kufeCp6Jw==}
@@ -1151,9 +1139,6 @@ packages:
   tabbable@6.5.0:
     resolution: {integrity: sha512-wieBHXygIm7OyQOu5hQlkk62/WyCFYGlWg7L6/ZCUZwx0o398Zkn4pVmMyfYhfMG8kGrj/Krt8eIk6UKC6VzwA==}
 
-  tailwind-merge@3.6.0:
-    resolution: {integrity: sha512-uxL7qAVQriqRQPAyK3pj66VqskWqoZ37PW94jwOTwNfq/z9oyu1V+eqrZqtR2+fCiXdYOZe/Modt8GtvqNzu+w==}
-
   tailwindcss@4.3.2:
     resolution: {integrity: sha512-WtctNNSH8A9jlMIqxzuYumOHU5uGZyRv0Q5svQl+oEPy5w84YpBxdb7MdqyiSPQge5jTJ6zFQLq0PFygdccSBA==}
 
@@ -1358,8 +1343,6 @@ snapshots:
   '@fontsource-variable/dm-sans@5.2.8': {}
 
   '@fontsource/dm-mono@5.2.7': {}
-
-  '@fontsource/iosevka-etoile@5.2.5': {}
 
   '@internationalized/date@3.12.2':
     dependencies:
@@ -2087,8 +2070,6 @@ snapshots:
       - '@typescript-eslint/types'
 
   tabbable@6.5.0: {}
-
-  tailwind-merge@3.6.0: {}
 
   tailwindcss@4.3.2: {}
 
