@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import { beforeNavigate } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
 	import { onMount, onDestroy } from 'svelte';
 
@@ -20,6 +21,14 @@
 	});
 
 	onDestroy(() => stopChronometer());
+
+	beforeNavigate(({ cancel }) => {
+		if (chronoInterval) {
+			if (!confirm('Are you sure you want to leave this page? The stopwatch will be stopped.')) {
+				cancel();
+			}
+		}
+	});
 
 	function startStop() {
 		if (chronoInterval) {

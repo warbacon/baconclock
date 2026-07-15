@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import { beforeNavigate } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
 	import TimerInput from '$lib/components/TimerInput.svelte';
 	import { onDestroy, onMount } from 'svelte';
@@ -36,6 +37,14 @@
 
 	onDestroy(() => {
 		clearInterval(timerInterval);
+	});
+
+	beforeNavigate(({ cancel }) => {
+		if (isRunning) {
+			if (!confirm('Are you sure you want to leave this page? The timer will be stopped.')) {
+				cancel();
+			}
+		}
 	});
 
 	// Utilities
