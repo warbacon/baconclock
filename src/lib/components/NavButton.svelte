@@ -2,7 +2,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import { page } from '$app/state';
 	import type { Button as ButtonPrimitive } from 'bits-ui';
-	import { cn } from '$lib/util';
+	import cn from 'cnfast';
 
 	type Props = ButtonPrimitive.RootProps & {
 		href: string;

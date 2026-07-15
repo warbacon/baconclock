@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { cn } from '$lib/util';
 	import { Button } from 'bits-ui';
 	import type { Button as ButtonPrimitive } from 'bits-ui';
+	import cn from 'cnfast';
 
 	type Props = ButtonPrimitive.RootProps;
 

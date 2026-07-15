@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import Button from '$lib/components/Button.svelte';
+	import TimerInput from '$lib/components/TimerInput.svelte';
 	import { onDestroy, onMount } from 'svelte';
 
 	// State
@@ -21,7 +22,16 @@
 
 	// Lifecycle
 	onMount(() => {
-		document.onkeyup = handleKeyPress;
+		document.onkeyup = (e: KeyboardEvent) => {
+			if (e.key === ' ' || e.key === 'p') {
+				e.preventDefault();
+				toggleTimer();
+			}
+			if (e.key === 'r') {
+				e.preventDefault();
+				resetTimer();
+			}
+		};
 	});
 
 	onDestroy(() => {
@@ -42,18 +52,6 @@
 		hours = parseInt(timeStr.substring(0, 2));
 		minutes = parseInt(timeStr.substring(3, 5));
 		seconds = parseInt(timeStr.substring(6));
-	}
-
-	// Event handlers
-	function handleKeyPress(e: KeyboardEvent): void {
-		if (e.key === ' ' || e.key === 'p') {
-			e.preventDefault();
-			toggleTimer();
-		}
-		if (e.key === 'r') {
-			e.preventDefault();
-			resetTimer();
-		}
 	}
 
 	function toggleTimer(): void {
@@ -126,15 +124,7 @@
 
 <article>
 	{#if showInput}
-		<input
-			class="font-clock relative top-0.5 border-0 border-b-2 border-zinc-400 bg-transparent text-center font-bold text-inherit focus:border-orange-600 focus:ring-0 dark:border-zinc-700 focus:dark:border-teal-300"
-			type="time"
-			aria-label="time"
-			step="1"
-			bind:value={time}
-			min="00:00:00"
-			max="23:59:59"
-		/>
+		<TimerInput class="font-clock font-bold" bind:value={time} />
 		{#if time !== '00:00:00'}
 			<div class="absolute bottom-[25dvh] left-0 flex w-full justify-center gap-4">
 				<Button onclick={toggleTimer}>{toggleButtonText}</Button>
@@ -142,24 +132,10 @@
 			</div>
 		{/if}
 	{:else}
-		<h1 class="font-clock text-center font-bold">{currentTime}</h1>
+		<h1 class="font-clock font-bold">{currentTime}</h1>
 		<div class="absolute bottom-[25dvh] left-0 flex w-full justify-center gap-4">
 			<Button onclick={toggleTimer}>{toggleButtonText}</Button>
 			<Button onclick={resetTimer}>Reset</Button>
 		</div>
 	{/if}
 </article>
-
-<style>
-	input[type='time'] {
-		-webkit-appearance: none;
-		appearance: none;
-		padding: 0;
-	}
-
-	input[type='time']::-webkit-calendar-picker-indicator,
-	input[type='time']::-webkit-clear-button,
-	input[type='time']::-webkit-inner-spin-button {
-		display: none;
-	}
-</style>

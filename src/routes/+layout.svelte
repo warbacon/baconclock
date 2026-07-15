@@ -2,7 +2,7 @@
 	import '../app.css';
 
 	import '@fontsource/dm-mono/500.css';
-	import '@fontsource-variable/dm-sans';
+	import '@fontsource-variable/dm-sans/wght.css';
 
 	import NavButton from '../lib/components/NavButton.svelte';
 	import type { LayoutProps } from './$types';
@@ -84,7 +84,7 @@
 </main>
 
 <style>
-	:global(h1, input[type='time']) {
+	:global(h1, .font-clock) {
 		font-size: clamp(3rem, 16vw, 9rem);
 	}
 </style>
