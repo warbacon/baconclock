@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../app.css';
+	import './layout.css';
 
 	import '@fontsource/dm-mono/500.css';
 	import '@fontsource-variable/dm-sans/wght.css';
@@ -8,6 +8,7 @@
 	import type { LayoutProps } from './$types';
 	import { onMount, type Component } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { browser } from '$app/environment';
 	import { ClockIcon, HourglassIcon, TimerIcon } from 'phosphor-svelte';
 	import type { IconComponentProps } from 'phosphor-svelte';
@@ -15,24 +16,24 @@
 	let { children }: LayoutProps = $props();
 
 	type Route = {
-		path: string;
+		path: '/clock' | '/stopwatch' | '/timer';
 		name: string;
-		icon: Component<IconComponentProps, {}, ''>;
+		icon: Component<IconComponentProps, object, ''>;
 	};
 
 	const routes: Route[] = [
 		{
-			path: 'clock',
+			path: '/clock',
 			name: 'Clock',
 			icon: ClockIcon
 		},
 		{
-			path: 'stopwatch',
+			path: '/stopwatch',
 			name: 'Stopwatch',
 			icon: TimerIcon
 		},
 		{
-			path: 'timer',
+			path: '/timer',
 			name: 'Timer',
 			icon: HourglassIcon
 		}
@@ -55,9 +56,9 @@
 				const keyNumber = parseInt(e.key);
 				if (isNaN(keyNumber) || keyNumber < 1 || keyNumber > routes.length) return;
 
-				const route = routes[keyNumber - 1];
+				const route = routes.at(keyNumber - 1);
 				if (route) {
-					goto('/' + route.path);
+					goto(resolve(route.path));
 				}
 			});
 		}
@@ -81,8 +82,8 @@
 	<nav
 		class="fixed bottom-0 my-4 flex justify-center gap-2 rounded-full border border-zinc-300 bg-zinc-200 p-2 md:top-0 md:bottom-auto dark:border-zinc-700/70 dark:bg-zinc-800"
 	>
-		{#each routes as route}
-			<NavButton href="/{route.path}" class="flex flex-col items-center md:flex-row md:gap-2">
+		{#each routes as route (route.name)}
+			<NavButton href={resolve(route.path)} class="flex flex-col items-center md:flex-row md:gap-2">
 				<route.icon size={20} weight="bold" />
 				<span class="hidden md:inline">{route.name}</span>
 			</NavButton>
@@ -93,9 +94,3 @@
 <main class="flex h-dvh w-screen flex-col items-center justify-center">
 	{@render children()}
 </main>
-
-<style>
-	:global(h1, .font-clock) {
-		font-size: clamp(3rem, 16vw, 9rem);
-	}
-</style>

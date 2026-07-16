@@ -47,7 +47,7 @@
 		Notification.requestPermission();
 	});
 
-	onDestroy(() => clearInterval(timerInterval));
+	onDestroy(() => window.clearInterval(timerInterval));
 
 	beforeNavigate(({ cancel }) => {
 		if (
@@ -64,7 +64,7 @@
 
 	function toggleTimer() {
 		if (isRunning) {
-			clearInterval(timerInterval);
+			window.clearInterval(timerInterval);
 			timerInterval = 0;
 			return;
 		}
@@ -75,12 +75,12 @@
 		}
 
 		if (remaining > 0) {
-			timerInterval = setInterval(tick, 1000);
+			timerInterval = window.setInterval(tick, 1000);
 		}
 	}
 
 	function resetTimer() {
-		clearInterval(timerInterval);
+		window.clearInterval(timerInterval);
 		timerInterval = 0;
 		remaining = 0;
 		inputTime = '00:00:00';

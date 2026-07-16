@@ -7,12 +7,12 @@
 	let timeInterval: number;
 
 	onMount(() => {
-		timeInterval = setInterval(() => {
+		timeInterval = window.setInterval(() => {
 			date = new Date();
 		}, 250);
 	});
 
-	onDestroy(() => clearInterval(timeInterval));
+	onDestroy(() => window.clearInterval(timeInterval));
 </script>
 
 <svelte:head>

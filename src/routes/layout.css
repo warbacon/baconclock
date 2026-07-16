@@ -4,3 +4,9 @@
 	--font-clock: 'DM Mono', monospace;
 	--font-sans: 'DM Sans Variable', sans;
 }
+
+@layer base {
+	.font-clock {
+		font-size: clamp(3rem, 16vw, 9rem);
+	}
+}

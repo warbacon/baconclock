@@ -4,7 +4,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import { onMount, onDestroy } from 'svelte';
 
-	let chronoInterval: number = $state(0);
+	let chronoInterval = $state(0);
 	let chronoButton = $state('Start');
 	let time = $state('00:00:00');
 	let hours = 0;
@@ -23,10 +23,11 @@
 	onDestroy(() => stopChronometer());
 
 	beforeNavigate(({ cancel }) => {
-		if (chronoInterval) {
-			if (!confirm('Are you sure you want to leave this page? The stopwatch will be stopped.')) {
-				cancel();
-			}
+		if (
+			chronoInterval &&
+			!confirm('Are you sure you want to leave this page? The stopwatch will be stopped.')
+		) {
+			cancel();
 		}
 	});
 
@@ -42,11 +43,11 @@
 	}
 
 	function startChronometer() {
-		chronoInterval = setInterval(chronometer, 1000);
+		chronoInterval = window.setInterval(chronometer, 1000);
 	}
 
 	function stopChronometer() {
-		clearInterval(chronoInterval);
+		window.clearInterval(chronoInterval);
 		chronoInterval = 0;
 	}
 
