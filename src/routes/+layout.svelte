@@ -4,39 +4,37 @@
 	import '@fontsource/dm-mono/500.css';
 	import '@fontsource-variable/dm-sans/wght.css';
 
-	import NavButton from '../lib/components/NavButton.svelte';
+	import NavButton from '$lib/components/NavButton.svelte';
 	import type { LayoutProps } from './$types';
 	import { onMount, type Component } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
-	import Clock from '@lucide/svelte/icons/clock';
-	import Hourglass from '@lucide/svelte/icons/hourglass';
-	import Timer from '@lucide/svelte/icons/timer';
-	import type { IconProps } from '@lucide/svelte';
+	import { ClockIcon, HourglassIcon, TimerIcon } from 'phosphor-svelte';
+	import type { IconComponentProps } from 'phosphor-svelte';
 
 	let { children }: LayoutProps = $props();
 
 	type Route = {
 		path: string;
 		name: string;
-		icon: Component<IconProps, {}, ''>;
+		icon: Component<IconComponentProps, {}, ''>;
 	};
 
 	const routes: Route[] = [
 		{
 			path: 'clock',
 			name: 'Clock',
-			icon: Clock
+			icon: ClockIcon
 		},
 		{
 			path: 'stopwatch',
 			name: 'Stopwatch',
-			icon: Timer
+			icon: TimerIcon
 		},
 		{
 			path: 'timer',
 			name: 'Timer',
-			icon: Hourglass
+			icon: HourglassIcon
 		}
 	] as const;
 
@@ -85,7 +83,7 @@
 	>
 		{#each routes as route}
 			<NavButton href="/{route.path}" class="flex flex-col items-center md:flex-row md:gap-2">
-				<route.icon class="h-5 w-5" />
+				<route.icon size={20} weight="bold" />
 				<span class="hidden md:inline">{route.name}</span>
 			</NavButton>
 		{/each}
