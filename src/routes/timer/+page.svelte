@@ -1,137 +1,112 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { beforeNavigate } from '$app/navigation';
-	import Button from '$lib/components/Button.svelte';
-	import TimerInput from '$lib/components/TimerInput.svelte';
 	import { onDestroy, onMount } from 'svelte';
 
-	// State
-	let time = $state('00:00:00');
-	let hours = $state(0);
-	let minutes = $state(0);
-	let seconds = $state(0);
+	import Button from '$lib/components/Button.svelte';
+	import TimerInput from '$lib/components/TimerInput.svelte';
+
+	let inputTime = $state('00:00:00');
+	let remaining = $state(0);
 	let timerInterval = $state(0);
 
-	// Derived state
 	const isRunning = $derived(timerInterval !== 0);
-	const isAtZero = $derived(hours === 0 && minutes === 0 && seconds === 0);
+	const isAtZero = $derived(remaining === 0);
 	const showInput = $derived(!isRunning && isAtZero);
-
-	const currentTime = $derived(`${pad(hours)}:${pad(minutes)}:${pad(seconds)}`);
 
 	const toggleButtonText = $derived(isRunning ? 'Stop' : isAtZero ? 'Start' : 'Continue');
 
-	// Lifecycle
+	const time = $derived.by(() => {
+		if (!isRunning && isAtZero) {
+			return inputTime;
+		}
+
+		const hours = Math.floor(remaining / 3600);
+		const minutes = Math.floor((remaining % 3600) / 60);
+		const seconds = remaining % 60;
+
+		return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+	});
+
 	onMount(() => {
 		document.onkeyup = (e: KeyboardEvent) => {
-			if (e.key === ' ' || e.key === 'p') {
-				e.preventDefault();
-				toggleTimer();
-			}
-			if (e.key === 'r') {
-				e.preventDefault();
-				resetTimer();
+			switch (e.key) {
+				case ' ':
+				case 'p':
+					e.preventDefault();
+					toggleTimer();
+					break;
+
+				case 'r':
+					e.preventDefault();
+					resetTimer();
+					break;
 			}
 		};
+
+		Notification.requestPermission();
 	});
 
-	onDestroy(() => {
-		clearInterval(timerInterval);
-	});
+	onDestroy(() => clearInterval(timerInterval));
 
 	beforeNavigate(({ cancel }) => {
-		if (isRunning) {
-			if (!confirm('Are you sure you want to leave this page? The timer will be stopped.')) {
-				cancel();
-			}
+		if (
+			isRunning &&
+			!confirm('Are you sure you want to leave this page? The timer will be stopped.')
+		) {
+			cancel();
 		}
 	});
 
-	// Utilities
-	function pad(num: number): string {
-		return num.toLocaleString('es-ES', { minimumIntegerDigits: 2 });
+	function pad(value: number) {
+		return value.toString().padStart(2, '0');
 	}
 
-	function parseTimeInput(timeStr: string): void {
-		if (!timeStr || timeStr === '00:00') {
-			time = '00:00:00';
+	function toggleTimer() {
+		if (isRunning) {
+			clearInterval(timerInterval);
+			timerInterval = 0;
 			return;
 		}
 
-		hours = parseInt(timeStr.substring(0, 2));
-		minutes = parseInt(timeStr.substring(3, 5));
-		seconds = parseInt(timeStr.substring(6));
-	}
-
-	function toggleTimer(): void {
-		if (isRunning) {
-			stopTimer();
-		} else {
-			startTimer();
-		}
-	}
-
-	function startTimer(): void {
-		if (isAtZero && time !== '00:00:00') {
-			parseTimeInput(time);
+		if (isAtZero) {
+			const [hours, minutes, seconds] = inputTime.split(':').map(Number);
+			remaining = hours * 3600 + minutes * 60 + seconds;
 		}
 
-		if (!isAtZero) {
+		if (remaining > 0) {
 			timerInterval = setInterval(tick, 1000);
 		}
 	}
 
-	function stopTimer(): void {
+	function resetTimer() {
 		clearInterval(timerInterval);
 		timerInterval = 0;
+		remaining = 0;
+		inputTime = '00:00:00';
 	}
 
-	function resetTimer(): void {
-		stopTimer();
-		hours = 0;
-		minutes = 0;
-		seconds = 0;
-		time = '00:00:00';
-	}
-
-	function tick(): void {
-		if (isAtZero) {
-			resetTimer();
+	function tick() {
+		if (--remaining > 0) {
 			return;
 		}
 
-		seconds--;
+		resetTimer();
 
-		if (seconds < 0) {
-			seconds = 59;
-			minutes--;
-
-			if (minutes < 0) {
-				minutes = 59;
-				hours--;
-
-				if (hours < 0) {
-					hours = 0;
-					minutes = 0;
-					seconds = 0;
-				}
-			}
+		if (Notification.permission === 'granted') {
+			new Notification('Baconclock', {
+				body: "Time's up!",
+				icon: '/favicon-96x96.png'
+			});
 		}
 	}
-
-	// Effects
-	$effect(() => {
-		if (time === '' || time === '00:00') {
-			time = '00:00:00';
-		}
-	});
 </script>
 
 <svelte:head>
-	<title>
-		{`${browser && isRunning ? `${currentTime} - ` : ''}Timer | Baconclock`}
-	</title>
+	<title>{`${browser && isRunning ? `${time} - ` : ''}Timer | Baconclock`}</title>
+
 	<link rel="canonical" href="https://baconclock.vercel.app/timer" />
+
 	<meta
 		name="description"
 		content="Free online countdown timer with customizable duration. Perfect for cooking, Pomodoro technique, workouts, and study sessions. No ads, no tracking."
@@ -140,15 +115,12 @@
 
 <article>
 	{#if showInput}
-		<TimerInput class="font-clock " bind:value={time} />
-		{#if time !== '00:00:00'}
-			<div class="absolute bottom-[25dvh] left-0 flex w-full justify-center gap-4">
-				<Button onclick={toggleTimer}>{toggleButtonText}</Button>
-				<Button onclick={resetTimer}>Reset</Button>
-			</div>
-		{/if}
+		<TimerInput class="font-clock" bind:value={inputTime} />
 	{:else}
-		<h1 class="font-clock">{currentTime}</h1>
+		<h1 class="font-clock">{time}</h1>
+	{/if}
+
+	{#if !showInput || inputTime !== '00:00:00'}
 		<div class="absolute bottom-[25dvh] left-0 flex w-full justify-center gap-4">
 			<Button onclick={toggleTimer}>{toggleButtonText}</Button>
 			<Button onclick={resetTimer}>Reset</Button>
