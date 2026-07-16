@@ -12,12 +12,10 @@
 	let seconds = 0;
 
 	onMount(() => {
-		if (browser) {
-			document.onkeyup = (e) => {
-				if (e.key == ' ' || e.key == 'p') startStop();
-				if (e.key == 'r') resetChronometer();
-			};
-		}
+		document.onkeyup = (e) => {
+			if (e.key == ' ' || e.key == 'p') startStop();
+			if (e.key == 'r') resetChronometer();
+		};
 	});
 
 	onDestroy(() => stopChronometer());
@@ -43,11 +41,11 @@
 	}
 
 	function startChronometer() {
-		chronoInterval = window.setInterval(chronometer, 1000);
+		if (browser) chronoInterval = window.setInterval(chronometer, 1000);
 	}
 
 	function stopChronometer() {
-		window.clearInterval(chronoInterval);
+		if (browser) window.clearInterval(chronoInterval);
 		chronoInterval = 0;
 	}
 

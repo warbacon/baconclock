@@ -28,26 +28,30 @@
 		return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
 	});
 
-	onMount(() => {
-		document.onkeyup = (e: KeyboardEvent) => {
-			switch (e.key) {
-				case ' ':
-				case 'p':
-					e.preventDefault();
-					toggleTimer();
-					break;
+	if (browser) {
+		onMount(() => {
+			document.onkeyup = (e: KeyboardEvent) => {
+				switch (e.key) {
+					case ' ':
+					case 'p':
+						e.preventDefault();
+						toggleTimer();
+						break;
 
-				case 'r':
-					e.preventDefault();
-					resetTimer();
-					break;
-			}
-		};
+					case 'r':
+						e.preventDefault();
+						resetTimer();
+						break;
+				}
+			};
 
-		Notification.requestPermission();
-	});
+			Notification.requestPermission();
+		});
 
-	onDestroy(() => window.clearInterval(timerInterval));
+		onDestroy(() => {
+			window.clearInterval(timerInterval);
+		});
+	}
 
 	beforeNavigate(({ cancel }) => {
 		if (
@@ -80,7 +84,7 @@
 	}
 
 	function resetTimer() {
-		window.clearInterval(timerInterval);
+		if (browser) window.clearInterval(timerInterval);
 		timerInterval = 0;
 		remaining = 0;
 		inputTime = '00:00:00';
