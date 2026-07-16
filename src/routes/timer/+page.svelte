@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { beforeNavigate } from '$app/navigation';
-	import { onDestroy, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 
 	import Button from '$lib/components/Button.svelte';
 	import TimerInput from '$lib/components/TimerInput.svelte';
@@ -28,30 +28,29 @@
 		return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
 	});
 
-	if (browser) {
-		onMount(() => {
-			document.onkeyup = (e: KeyboardEvent) => {
-				switch (e.key) {
-					case ' ':
-					case 'p':
-						e.preventDefault();
-						toggleTimer();
-						break;
+	onMount(() => {
+		if (!browser) {
+			return;
+		}
 
-					case 'r':
-						e.preventDefault();
-						resetTimer();
-						break;
-				}
-			};
+		document.onkeyup = (e: KeyboardEvent) => {
+			switch (e.key) {
+				case ' ':
+				case 'p':
+					e.preventDefault();
+					toggleTimer();
+					break;
 
-			Notification.requestPermission();
-		});
+				case 'r':
+					e.preventDefault();
+					resetTimer();
+					break;
+			}
+		};
 
-		onDestroy(() => {
-			window.clearInterval(timerInterval);
-		});
-	}
+		Notification.requestPermission();
+		return () => window.clearInterval(timerInterval);
+	});
 
 	beforeNavigate(({ cancel }) => {
 		if (

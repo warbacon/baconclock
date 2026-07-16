@@ -2,10 +2,10 @@
 	import { browser } from '$app/environment';
 	import { beforeNavigate } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount } from 'svelte';
 
 	let chronoInterval = $state(0);
-	let chronoButton = $state('Start');
+	let chronoButtonText: 'Start' | 'Continue' | 'Stop' = $state('Start');
 	let time = $state('00:00:00');
 	let hours = 0;
 	let minutes = 0;
@@ -13,12 +13,22 @@
 
 	onMount(() => {
 		document.onkeyup = (e) => {
-			if (e.key == ' ' || e.key == 'p') startStop();
-			if (e.key == 'r') resetChronometer();
-		};
-	});
+			switch (e.key) {
+				case ' ':
+				case 'p':
+					e.preventDefault();
+					startStop();
+					break;
 
-	onDestroy(() => stopChronometer());
+				case 'r':
+					e.preventDefault();
+					resetChronometer();
+					break;
+			}
+		};
+
+		return stopChronometer;
+	});
 
 	beforeNavigate(({ cancel }) => {
 		if (
@@ -32,11 +42,11 @@
 	function startStop() {
 		if (chronoInterval) {
 			stopChronometer();
-			if (time == '00:00:00') chronoButton = 'Start';
-			else chronoButton = 'Continue';
+			if (time == '00:00:00') chronoButtonText = 'Start';
+			else chronoButtonText = 'Continue';
 		} else {
 			startChronometer();
-			chronoButton = 'Stop';
+			chronoButtonText = 'Stop';
 		}
 	}
 
@@ -51,7 +61,7 @@
 
 	function resetChronometer() {
 		if (chronoInterval) stopChronometer();
-		chronoButton = 'Start';
+		chronoButtonText = 'Start';
 		time = '00:00:00';
 		hours = 0;
 		minutes = 0;
@@ -98,7 +108,7 @@
 	<h1 class="font-clock">{time}</h1>
 	<div class="absolute bottom-[25dvh] left-0 flex w-full justify-center gap-4">
 		<Button onclick={startStop}>
-			{chronoButton}
+			{chronoButtonText}
 		</Button>
 		{#if chronoInterval || time != '00:00:00'}
 			<Button onclick={resetChronometer}>Reset</Button>
