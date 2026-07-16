@@ -1,8 +1,4 @@
 {
-	"routes": [
-		{
-			"src": "/",
-			"dest": "/clock"
-		}
-	]
+	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"redirects": [{ "source": "/", "destination": "/clock" }]
 }
