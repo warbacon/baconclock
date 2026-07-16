@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/env';
 	import { onMount } from 'svelte';
 
 	let date = $state(new Date());
@@ -12,7 +13,7 @@
 	function tick() {
 		const now = new Date();
 		date = now;
-		timeout = window.setTimeout(tick, 1000 - now.getMilliseconds());
+		if (browser) timeout = window.setTimeout(tick, 1000 - now.getMilliseconds());
 	}
 
 	onMount(() => {
