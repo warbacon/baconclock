@@ -40,28 +40,30 @@
 	] as const;
 
 	onMount(() => {
-		if (browser) {
-			window.addEventListener('keydown', (e: KeyboardEvent) => {
-				const target = e.target as HTMLElement;
-
-				if (
-					target.closest('input, textarea') ||
-					(target.isContentEditable ?? false) ||
-					e.ctrlKey ||
-					e.altKey
-				) {
-					return;
-				}
-
-				const keyNumber = parseInt(e.key);
-				if (isNaN(keyNumber) || keyNumber < 1 || keyNumber > routes.length) return;
-
-				const route = routes.at(keyNumber - 1);
-				if (route) {
-					goto(resolve(route.path));
-				}
-			});
+		if (!browser) {
+			return;
 		}
+
+		document.addEventListener('keyup', (e: KeyboardEvent) => {
+			const target = e.target as HTMLElement;
+
+			if (
+				target.closest('input, textarea') ||
+				(target.isContentEditable ?? false) ||
+				e.ctrlKey ||
+				e.altKey
+			) {
+				return;
+			}
+
+			const keyNumber = parseInt(e.key);
+			if (isNaN(keyNumber) || keyNumber < 1 || keyNumber > routes.length) return;
+
+			const route = routes.at(keyNumber - 1);
+			if (route) {
+				goto(resolve(route.path));
+			}
+		});
 	});
 </script>
 
