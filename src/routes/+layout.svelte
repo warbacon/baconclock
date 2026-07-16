@@ -44,7 +44,7 @@
 			return;
 		}
 
-		document.addEventListener('keyup', (e: KeyboardEvent) => {
+		document.addEventListener('keypress', (e: KeyboardEvent) => {
 			const target = e.target as HTMLElement;
 
 			if (
