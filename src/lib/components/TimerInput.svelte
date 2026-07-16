@@ -85,7 +85,7 @@
 
 <div
 	class={cn(
-		'flex border-b-2 border-zinc-400 tabular-nums focus-within:border-orange-600 dark:border-zinc-700 dark:focus-within:border-teal-300',
+		'flex border-b-2 border-zinc-400 tabular-nums focus-within:border-orange-700 dark:border-zinc-700 dark:focus-within:border-teal-300',
 		className
 	)}
 >
