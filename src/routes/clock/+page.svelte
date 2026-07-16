@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { browser } from '$app/env';
 	import { onMount } from 'svelte';
 
+	let mounted = $state(false);
 	let date = $state(new Date());
 
 	const hours = $derived(date.getHours().toString().padStart(2, '0'));
@@ -13,11 +13,13 @@
 	function tick() {
 		const now = new Date();
 		date = now;
-		if (browser) timeout = window.setTimeout(tick, 1000 - now.getMilliseconds());
+		timeout = window.setTimeout(tick, 1000 - now.getMilliseconds());
 	}
 
 	onMount(() => {
+		mounted = true;
 		tick();
+
 		return () => clearTimeout(timeout);
 	});
 </script>
@@ -31,4 +33,6 @@
 	/>
 </svelte:head>
 
-<h1 class="font-clock">{hours}:{minutes}:{seconds}</h1>
+{#if mounted}
+	<h1 class="font-clock">{hours}:{minutes}:{seconds}</h1>
+{/if}
