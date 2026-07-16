@@ -76,7 +76,8 @@
 	<meta name="apple-mobile-web-app-title" content="Baconclock" />
 	<link rel="manifest" href="/site.webmanifest" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="theme-color" content="#191724" />
+	<meta name="theme-color" content="#e4e4e7" media="(prefers-color-scheme: light)" />
+	<meta name="theme-color" content="#18181b" media="(prefers-color-scheme: dark)" />
 	<meta name="color-scheme" content="light dark" />
 </svelte:head>
 
