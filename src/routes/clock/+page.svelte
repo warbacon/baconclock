@@ -1,18 +1,24 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte';
+	import { onMount } from 'svelte';
+
 	let date = $state(new Date());
-	let seconds = $derived(String(date.getSeconds()).padStart(2, '0'));
-	let minutes = $derived(String(date.getMinutes()).padStart(2, '0'));
-	let hours = $derived(String(date.getHours()).padStart(2, '0'));
-	let timeInterval: number;
+
+	const hours = $derived(date.getHours().toString().padStart(2, '0'));
+	const minutes = $derived(date.getMinutes().toString().padStart(2, '0'));
+	const seconds = $derived(date.getSeconds().toString().padStart(2, '0'));
+
+	let timeout: number;
+
+	function tick() {
+		const now = new Date();
+		date = now;
+		timeout = window.setTimeout(tick, 1000 - now.getMilliseconds());
+	}
 
 	onMount(() => {
-		timeInterval = window.setInterval(() => {
-			date = new Date();
-		}, 250);
+		tick();
+		return () => clearTimeout(timeout);
 	});
-
-	onDestroy(() => window.clearInterval(timeInterval));
 </script>
 
 <svelte:head>
