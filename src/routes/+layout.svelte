@@ -6,10 +6,8 @@
 
 	import NavButton from '$lib/components/NavButton.svelte';
 	import type { LayoutProps } from './$types';
-	import { onMount, type Component } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import { browser } from '$app/environment';
 	import { ClockIcon, HourglassIcon, TimerIcon } from 'phosphor-svelte';
 	import type { IconComponentProps } from 'phosphor-svelte';
 
@@ -18,7 +16,7 @@
 	type Route = {
 		path: '/clock' | '/stopwatch' | '/timer';
 		name: string;
-		icon: Component<IconComponentProps, object, ''>;
+		icon: typeof ClockIcon;
 	};
 
 	const routes: Route[] = [
@@ -39,12 +37,8 @@
 		}
 	] as const;
 
-	onMount(() => {
-		if (!browser) {
-			return;
-		}
-
-		document.addEventListener('keypress', (e: KeyboardEvent) => {
+	$effect(() => {
+		const keydown = (e: KeyboardEvent) => {
 			const target = e.target as HTMLElement;
 
 			if (
@@ -56,14 +50,15 @@
 				return;
 			}
 
-			const keyNumber = parseInt(e.key);
-			if (isNaN(keyNumber) || keyNumber < 1 || keyNumber > routes.length) return;
-
-			const route = routes.at(keyNumber - 1);
+			if (!['1', '2', '3'].includes(e.key)) return;
+			const idx = parseInt(e.key) - 1;
+			const route = routes[idx];
 			if (route) {
 				goto(resolve(route.path));
 			}
-		});
+		};
+		document.addEventListener('keydown', keydown);
+		return () => document.removeEventListener('keydown', keydown);
 	});
 </script>
 

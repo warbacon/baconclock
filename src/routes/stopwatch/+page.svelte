@@ -1,103 +1,57 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { beforeNavigate } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
-	import { onMount } from 'svelte';
+	import { formatTime, createKeyboardHandler } from '$lib/utils';
 
-	let chronoInterval = $state(0);
-	let chronoButtonText: 'Start' | 'Continue' | 'Stop' = $state('Start');
-	let time = $state('00:00:00');
-	let hours = 0;
-	let minutes = 0;
-	let seconds = 0;
+	let elapsed = $state(0);
+	let isRunning = $state(false);
 
-	onMount(() => {
-		document.onkeyup = (e) => {
-			switch (e.key) {
-				case ' ':
-				case 'p':
-					e.preventDefault();
-					startStop();
-					break;
-
-				case 'r':
-					e.preventDefault();
-					resetChronometer();
-					break;
-			}
-		};
-
-		return stopChronometer;
-	});
+	const time = $derived(formatTime(elapsed));
 
 	beforeNavigate(({ cancel }) => {
 		if (
-			chronoInterval &&
+			isRunning &&
 			!confirm('Are you sure you want to leave this page? The stopwatch will be stopped.')
 		) {
 			cancel();
 		}
 	});
 
-	function startStop() {
-		if (chronoInterval) {
-			stopChronometer();
-			if (time == '00:00:00') chronoButtonText = 'Start';
-			else chronoButtonText = 'Continue';
-		} else {
-			startChronometer();
-			chronoButtonText = 'Stop';
-		}
+	$effect(() => {
+		return createKeyboardHandler({
+			onToggle: toggleStopwatch,
+			onReset: resetStopwatch
+		});
+	});
+
+	$effect(() => {
+		if (!isRunning) return;
+
+		const startTime = Date.now() - elapsed * 1000;
+		const id = window.setInterval(() => {
+			elapsed = Math.floor((Date.now() - startTime) / 1000);
+		}, 1000);
+
+		return () => clearInterval(id);
+	});
+
+	function toggleStopwatch() {
+		isRunning = !isRunning;
 	}
 
-	function startChronometer() {
-		if (browser) chronoInterval = window.setInterval(chronometer, 1000);
-	}
-
-	function stopChronometer() {
-		if (browser) window.clearInterval(chronoInterval);
-		chronoInterval = 0;
-	}
-
-	function resetChronometer() {
-		if (chronoInterval) stopChronometer();
-		chronoButtonText = 'Start';
-		time = '00:00:00';
-		hours = 0;
-		minutes = 0;
-		seconds = 0;
-	}
-
-	function chronometer() {
-		seconds++;
-		if (seconds >= 60) {
-			seconds = 0;
-			minutes++;
-			if (minutes >= 60) {
-				minutes = 0;
-				hours++;
-			}
-		}
-		time =
-			hours.toLocaleString('es-ES', {
-				minimumIntegerDigits: 2
-			}) +
-			':' +
-			minutes.toLocaleString('es-ES', {
-				minimumIntegerDigits: 2
-			}) +
-			':' +
-			seconds.toLocaleString('es-ES', {
-				minimumIntegerDigits: 2
-			});
+	function resetStopwatch() {
+		isRunning = false;
+		elapsed = 0;
 	}
 </script>
 
 <svelte:head>
 	<title>
-		{`${browser && chronoInterval ? `${time} - ` : ''}Stopwatch | Baconclock`}
+		{`${isRunning ? `${time} - ` : ''}Stopwatch | Baconclock`}
 	</title>
+
 	<link rel="canonical" href="https://baconclock.vercel.app/stopwatch" />
+
 	<meta
 		name="description"
 		content="Free online stopwatch with start, stop, and reset functionality. Precision timing for sports, cooking, workouts, and more. Keyboard shortcuts supported."
@@ -107,11 +61,11 @@
 <article>
 	<h1 class="font-clock">{time}</h1>
 	<div class="absolute bottom-[25dvh] left-0 flex w-full justify-center gap-4">
-		<Button onclick={startStop}>
-			{chronoButtonText}
+		<Button onclick={toggleStopwatch}>
+			{isRunning ? 'Stop' : elapsed > 0 ? 'Continue' : 'Start'}
 		</Button>
-		{#if chronoInterval || time != '00:00:00'}
-			<Button onclick={resetChronometer}>Reset</Button>
+		{#if isRunning || elapsed > 0}
+			<Button onclick={resetStopwatch}>Reset</Button>
 		{/if}
 	</div>
 </article>

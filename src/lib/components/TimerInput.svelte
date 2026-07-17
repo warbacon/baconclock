@@ -7,79 +7,71 @@
 	const MAX = [23, 59, 59];
 	const LABELS = ['Hours', 'Minutes', 'Seconds'];
 
-	function parseValue(v: string): number[] {
-		const [h, m, s] = v.split(':').map(Number);
-		return [h || 0, m || 0, s || 0];
-	}
-	function pad(n: number): string {
-		return n.toString().padStart(2, '0');
-	}
-	function clamp(n: number, i: number): number {
-		return Math.min(Math.max(n, 0), MAX[i]);
-	}
-
-	let raw = $state(parseValue(value).map(pad));
+	let raw = $state(value.split(':').map((v) => (v || '0').slice(0, 2).padStart(2, '0')));
 	let inputs: (HTMLInputElement | null)[] = $state([null, null, null]);
+	let focusedIndex = $state(-1);
 
 	$effect(() => {
-		const parsed = parseValue(value).map(pad);
-		parsed.forEach((p, i) => {
-			if (p !== raw[i] && document.activeElement !== inputs[i]) {
-				raw[i] = p;
-			}
-		});
+		if (focusedIndex >= 0) return;
+		const parts = value.split(':');
+		for (let i = 0; i < 3; i++) {
+			raw[i] = (parts[i] || '0').slice(0, 2).padStart(2, '0');
+		}
 	});
 
 	$effect(() => {
-		const next = raw.map((r, i) => pad(clamp(parseInt(r || '0', 10), i))).join(':');
+		const next = raw
+			.map((r, i) => {
+				const num = parseInt(r, 10) || 0;
+				return Math.min(Math.max(num, 0), MAX[i]).toString().padStart(2, '0');
+			})
+			.join(':');
 		if (next !== value) value = next;
 	});
 
-	function focusNext(i: number): void {
-		inputs[i + 1]?.focus();
-	}
-	function focusPrev(i: number): void {
-		inputs[i - 1]?.focus();
-	}
-
-	function handleInput(i: number): void {
+	function handleInput(i: number) {
 		raw[i] = raw[i].replace(/\D/g, '').slice(0, 2);
 
-		if (raw[i] != '') {
-			raw[i] = clamp(parseInt(raw[i]), i).toString();
+		if (raw[i].length === 2 && i < 2) {
+			inputs[i + 1]?.focus();
 		}
 	}
 
-	function handleBlur(i: number): void {
-		raw[i] = pad(clamp(parseInt(raw[i] || '0', 10), i));
+	function handleFocus(i: number, e: FocusEvent) {
+		focusedIndex = i;
+		(e.currentTarget as HTMLInputElement).select();
 	}
 
-	function handleKeydown(i: number, e: KeyboardEvent): void {
+	function handleBlur(i: number) {
+		focusedIndex = -1;
+		const num = parseInt(raw[i], 10) || 0;
+		raw[i] = Math.min(Math.max(num, 0), MAX[i]).toString().padStart(2, '0');
+	}
+
+	function handleKeydown(i: number, e: KeyboardEvent) {
 		if (e.key === 'ArrowUp') {
 			e.preventDefault();
-			raw[i] = pad((clamp(parseInt(raw[i] || '0', 10), i) + 1) % (MAX[i] + 1));
+			const num = parseInt(raw[i], 10) || 0;
+			raw[i] = ((num + 1) % (MAX[i] + 1)).toString().padStart(2, '0');
 		} else if (e.key === 'ArrowDown') {
 			e.preventDefault();
-			raw[i] = pad((clamp(parseInt(raw[i] || '0', 10), i) - 1 + MAX[i] + 1) % (MAX[i] + 1));
+			const num = parseInt(raw[i], 10) || 0;
+			raw[i] = ((num - 1 + MAX[i] + 1) % (MAX[i] + 1)).toString().padStart(2, '0');
 		} else if (e.key === 'ArrowRight') {
 			e.preventDefault();
-			focusNext(i);
+			inputs[i + 1]?.focus();
 		} else if (e.key === 'ArrowLeft') {
 			e.preventDefault();
-			focusPrev(i);
+			inputs[i - 1]?.focus();
 		} else if (e.key === 'Escape') {
 			e.preventDefault();
 			(e.currentTarget as HTMLInputElement).blur();
 		} else if (e.key === 'Backspace' && (e.currentTarget as HTMLInputElement).value === '') {
 			e.preventDefault();
-			focusPrev(i);
+			inputs[i - 1]?.focus();
 		} else if (!/[0-9]/.test(e.key) && !['Tab', 'Backspace', 'Delete'].includes(e.key)) {
 			e.preventDefault();
 		}
-	}
-
-	function handleFocus(e: FocusEvent): void {
-		(e.currentTarget as HTMLInputElement).select();
 	}
 </script>
 
@@ -100,7 +92,7 @@
 			aria-label={LABELS[i]}
 			oninput={() => handleInput(i)}
 			onkeydown={(e) => handleKeydown(i, e)}
-			onfocus={handleFocus}
+			onfocus={(e) => handleFocus(i, e)}
 			onblur={() => handleBlur(i)}
 			class="w-[2ch] text-center outline-none"
 		/>

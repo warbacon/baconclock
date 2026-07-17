@@ -1,25 +1,19 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	let date = $state<Date | null>(null);
 
-	let mounted = $state(false);
-	let date = $state(new Date());
-
-	const hours = $derived(date.getHours().toString().padStart(2, '0'));
-	const minutes = $derived(date.getMinutes().toString().padStart(2, '0'));
-	const seconds = $derived(date.getSeconds().toString().padStart(2, '0'));
+	const hours = $derived(date?.getHours().toString().padStart(2, '0') ?? '');
+	const minutes = $derived(date?.getMinutes().toString().padStart(2, '0') ?? '');
+	const seconds = $derived(date?.getSeconds().toString().padStart(2, '0') ?? '');
 
 	let timeout: number;
 
-	function tick() {
-		const now = new Date();
-		date = now;
-		timeout = window.setTimeout(tick, 1000 - now.getMilliseconds());
-	}
-
-	onMount(() => {
-		mounted = true;
+	$effect(() => {
+		const tick = () => {
+			const now = new Date();
+			date = now;
+			timeout = window.setTimeout(tick, 1000 - now.getMilliseconds());
+		};
 		tick();
-
 		return () => clearTimeout(timeout);
 	});
 </script>
@@ -33,6 +27,6 @@
 	/>
 </svelte:head>
 
-{#if mounted}
+{#if date}
 	<h1 class="font-clock">{hours}:{minutes}:{seconds}</h1>
 {/if}
